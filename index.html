@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⌨️ YKT - Developer Profile</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Dox</title>
+    <meta name="theme-color" content="#000001">
+    <link rel="icon" href="https://qu.ax/wOPfl.png" type="image/x-icon">
+    <link rel="shortcut icon" href="https://qu.ax/wOPfl.png" type="image/x-icon"> 
+    <meta content="Dox" property="og:title" />
+    <meta content="http://kys.lol/" property="og:url" />
+    <meta content="https://i.imgur.com/y6XhCX6.jpeg" property="og:image" />
+    <meta content="#000001" data-react-helmet="true" name="theme-color" />
     <style>
         * {
             margin: 0;
@@ -19,7 +27,6 @@
             overflow-x: hidden;
             min-height: 100vh;
             background: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #000 70%);
-            perspective: 1000px;
         }
 
         .container {
@@ -29,7 +36,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transform-style: preserve-3d;
         }
 
         /* Loading Overlay */
@@ -133,24 +139,23 @@
             opacity: 0.3;
         }
 
-        /* Music Player */
+        /* Music Player - Moved to bottom */
         .music-player {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
             background: rgba(10, 10, 10, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             padding: 10px;
             z-index: 25;
             backdrop-filter: blur(5px);
-            transform-style: preserve-3d;
-            transform: translateZ(10px);
             transition: transform 0.3s ease;
         }
 
         .music-player:hover {
-            transform: translateZ(20px) scale(1.02);
+            transform: translateX(-50%) scale(1.02);
         }
 
         .music-controls {
@@ -167,12 +172,11 @@
             padding: 5px 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            transform: translateZ(5px);
         }
 
         .music-btn:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: translateZ(10px) scale(1.05);
+            transform: scale(1.05);
         }
 
         .song-info {
@@ -182,12 +186,12 @@
             text-align: center;
         }
 
-        /* Profile block styling with 3D effects */
+        /* Profile block styling */
         #profile-block {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+            transform: translate(-50%, -50%);
             width: 820px;
             min-height: 332px;
             background: rgba(10, 10, 10, 0.85);
@@ -203,7 +207,6 @@
                 0 0 30px rgba(0, 0, 0, 0.7),
                 0 10px 40px rgba(0, 0, 0, 0.5),
                 0 0 0 1px rgba(255, 255, 255, 0.05);
-            transform-style: preserve-3d;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -217,7 +220,6 @@
             overflow: hidden;
             padding: 15px;
             position: relative;
-            transform-style: preserve-3d;
         }
 
         .profile-header::before {
@@ -234,12 +236,11 @@
             position: relative;
             width: 150px;
             height: 150px;
-            transform-style: preserve-3d;
             transition: transform 0.5s ease;
         }
 
         .profile-container:hover {
-            transform: rotateY(15deg) scale(1.05);
+            transform: scale(1.05);
         }
 
         .profile-container::after {
@@ -261,12 +262,11 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #000;
-            transform: translateZ(20px);
             transition: transform 0.3s ease;
         }
 
         .profile-picture:hover {
-            transform: translateZ(30px) scale(1.05);
+            transform: scale(1.05);
         }
 
         .profile-info {
@@ -274,7 +274,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            transform-style: preserve-3d;
         }
 
         .name-and-badges {
@@ -282,7 +281,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-            transform-style: preserve-3d;
         }
 
         #profile-name {
@@ -293,12 +291,33 @@
             letter-spacing: 2px;
             position: relative;
             cursor: pointer;
-            transform: translateZ(10px);
             transition: transform 0.3s ease;
         }
 
         #profile-name:hover {
-            transform: translateZ(20px) scale(1.05);
+            transform: scale(1.05);
+        }
+
+        /* Username effect */
+        .username-effect {
+            position: relative;
+            display: inline-block;
+        }
+
+        .username-effect::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .username-effect:hover::after {
+            transform: scaleX(1);
         }
 
         /* Typewriter effect */
@@ -310,11 +329,16 @@
             animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
         }
 
+        .typewriter-bio {
+            overflow: hidden;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
         /* Tooltip styling */
         .tooltip {
             position: relative;
             display: inline-block;
-            transform-style: preserve-3d;
         }
 
         .tooltip .tooltiptext {
@@ -336,7 +360,6 @@
             font-size: 12px;
             font-family: 'Courier New', monospace;
             backdrop-filter: blur(5px);
-            transform: translateZ(30px);
         }
 
         .tooltip .tooltiptext::after {
@@ -358,25 +381,23 @@
         .badge-group {
             display: flex;
             gap: 8px;
-            transform-style: preserve-3d;
         }
 
         .badge {
             width: 24px;
             height: 24px;
             transition: transform 0.3s ease;
-            transform-style: preserve-3d;
         }
 
         .badge:hover {
-            transform: rotateY(180deg) translateZ(10px) scale(1.2);
+            transform: scale(1.2);
         }
 
         #profile-bio {
             color: rgba(255, 255, 255, 0.8);
             font-size: 16px;
             line-height: 1.5;
-            transform: translateZ(5px);
+            min-height: 48px;
         }
 
         .bio-separator {
@@ -384,21 +405,18 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             margin: 10px 0;
-            transform: translateZ(5px);
         }
 
         .profile-footer {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            transform-style: preserve-3d;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
             gap: 15px;
-            transform-style: preserve-3d;
         }
 
         .social-icon {
@@ -406,12 +424,10 @@
             height: 36px;
             transition: all 0.3s ease;
             filter: brightness(0.8);
-            transform-style: preserve-3d;
-            transform: translateZ(5px);
         }
 
         .social-icon:hover {
-            transform: translateZ(15px) scale(1.2) rotateY(15deg);
+            transform: scale(1.2) rotateY(15deg);
             filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
         }
 
@@ -424,12 +440,11 @@
             border-radius: 20px;
             font-size: 14px;
             align-self: flex-start;
-            transform: translateZ(10px);
             transition: transform 0.3s ease;
         }
 
         .visitor-counter:hover {
-            transform: translateZ(20px) scale(1.05);
+            transform: scale(1.05);
         }
 
         .visitor-icon {
@@ -437,93 +452,36 @@
             height: 18px;
         }
 
-        /* URL Scrambler with 3D effect */
-        .url-scrambler {
+        /* URL Display */
+        .url-display {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             background: rgba(10, 10, 10, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            padding: 10px;
+            padding: 8px 15px;
             z-index: 25;
             backdrop-filter: blur(5px);
-            transform-style: preserve-3d;
-            transform: translateZ(10px);
-            transition: transform 0.3s ease;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .url-scrambler:hover {
-            transform: translateZ(20px) scale(1.02);
+        .url-display .typewriter {
+            font-size: 14px;
+            animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite;
         }
 
-        .url-scrambler input {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            color: white;
-            padding: 5px 10px;
-            width: 200px;
-            margin-right: 5px;
-            transform: translateZ(5px);
-            transition: transform 0.3s ease;
-        }
-
-        .url-scrambler input:focus {
-            transform: translateZ(10px);
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .url-scrambler button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            color: white;
-            padding: 5px 10px;
-            cursor: pointer;
+        /* 3D effect only on bio hover */
+        .bio-3d {
             transition: all 0.3s ease;
-            transform: translateZ(5px);
         }
 
-        .url-scrambler button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateZ(10px) scale(1.05);
-        }
-
-        /* 3D Floating elements */
-        .floating-element {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-            z-index: 5;
-        }
-
-        .floating-element:nth-child(1) {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .floating-element:nth-child(2) {
-            top: 20%;
-            right: 15%;
-            animation-delay: 1s;
-        }
-
-        .floating-element:nth-child(3) {
-            bottom: 30%;
-            left: 20%;
-            animation-delay: 2s;
-        }
-
-        .floating-element:nth-child(4) {
-            bottom: 15%;
-            right: 25%;
-            animation-delay: 3s;
+        .bio-3d:hover {
+            transform: translateZ(10px) rotateX(5deg) rotateY(5deg);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         /* Animations */
@@ -539,11 +497,6 @@
             60% { transform: translate(2px, 2px); }
             80% { transform: translate(2px, -2px); }
             100% { transform: translate(0); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateZ(0); }
-            50% { transform: translateY(-20px) translateZ(10px); }
         }
 
         @keyframes pulse {
@@ -626,20 +579,17 @@
                 height: 30px;
             }
 
-            .url-scrambler {
-                bottom: 10px;
-                right: 10px;
-                left: 10px;
-            }
-
-            .url-scrambler input {
-                width: calc(100% - 70px);
-            }
-
             .music-player {
-                top: 10px;
-                left: 10px;
-                right: 10px;
+                bottom: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+            }
+
+            .url-display {
+                bottom: 10px;
+                width: 90%;
+                text-align: center;
             }
         }
     </style>
@@ -656,12 +606,6 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- Floating 3D elements -->
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-
     <div class="container">
         <!-- Background Video -->
         <video id="background-video" loop muted autoplay>
@@ -669,16 +613,6 @@
             Your browser does not support the video tag.
         </video>
         <div class="noise-overlay"></div>
-
-        <!-- Music Player -->
-        <div class="music-player">
-            <div class="music-controls">
-                <button id="play-btn" class="music-btn">▶ Play</button>
-                <button id="pause-btn" class="music-btn">⏸ Pause</button>
-                <button id="next-btn" class="music-btn">⏭ Next</button>
-            </div>
-            <div class="song-info" id="current-song">No song playing</div>
-        </div>
 
         <!-- Profile Block -->
         <div id="profile-block">
@@ -689,7 +623,7 @@
                 <div class="profile-info">
                     <div class="name-and-badges">
                         <div class="tooltip">
-                            <div id="profile-name" class="typewriter">* myzgar</div>
+                            <div id="profile-name" class="username-effect typewriter">* myzgar</div>
                             <span class="tooltiptext" id="user-tooltip">uid: 0</span>
                         </div>
                         <div class="badge-group">
@@ -699,7 +633,7 @@
                             <img src="assets/nitro.png" alt="Nitro" class="badge">
                         </div>
                     </div>
-                    <div id="profile-bio">Full-stack developer passionate about creating innovative solutions and exploring new technologies.</div>
+                    <div id="profile-bio" class="bio-3d typewriter-bio"></div>
                 </div>
             </div>
 
@@ -708,25 +642,25 @@
             <div class="profile-footer">
                 <div class="social-links">
                     <a href="https://discord.gg/temeria" target="_blank">
-                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
                     <a href="https://open.spotify.com/user/31jp45akuf57akeioraa7bw5voz4?si=49c2170dbc6f49ae" target="_blank">
                         <img src="assets/spotify.png" alt="Spotify" class="social-icon">
                     </a>
                     <a href="https://discord.gg/athen" target="_blank">
-                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
                     <a href="https://shadowfansub.com.tr/" target="_blank">
                         <img src="assets/world.png" alt="Website" class="social-icon">
                     </a>
                     <a href="https://discord.gg/marino" target="_blank">
-                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
                     <a href="" target="_blank">
                         <img src="assets/github.png" alt="GitHub" class="social-icon">
                     </a>
                     <a href="https://discord.gg/susku" target="_blank">
-                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
                 </div>
 
@@ -743,10 +677,19 @@
             </div>
         </div>
 
-        <!-- URL Scrambler -->
-        <div class="url-scrambler">
-            <input type="text" id="url-input" placeholder="Enter URL to scramble">
-            <button id="scramble-btn">Scramble</button>
+        <!-- Music Player - Moved to bottom -->
+        <div class="music-player">
+            <div class="music-controls">
+                <button id="play-btn" class="music-btn">▶ Play</button>
+                <button id="pause-btn" class="music-btn">⏸ Pause</button>
+                <button id="next-btn" class="music-btn">⏭ Next</button>
+            </div>
+            <div class="song-info" id="current-song">No song playing</div>
+        </div>
+
+        <!-- URL Display -->
+        <div class="url-display">
+            <span class="typewriter" id="url-text">/@username</span>
         </div>
     </div>
 
@@ -769,8 +712,8 @@
             document.removeEventListener('click', removeListener);
         });
 
-        // Typewriter effect for username
-        function typeWriter(element, text, speed = 100) {
+        // Typewriter effect for multiple elements
+        function typeWriter(element, text, speed = 100, callback = null) {
             let i = 0;
             element.innerHTML = '';
             
@@ -779,15 +722,27 @@
                     element.innerHTML += text.charAt(i);
                     i++;
                     setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
                 }
             }
             type();
         }
 
-        // Initialize typewriter effect after page loads
+        // Initialize typewriter effects
         window.addEventListener('load', function() {
             const usernameElement = document.getElementById('profile-name');
-            typeWriter(usernameElement, '* myzgar', 150);
+            const bioElement = document.getElementById('profile-bio');
+            const urlElement = document.getElementById('url-text');
+            
+            // Start with username
+            typeWriter(usernameElement, '* myzgar', 150, function() {
+                // Then start bio
+                typeWriter(bioElement, 'Full-stack developer passionate about creating innovative solutions and exploring new technologies.', 50, function() {
+                    // Then start URL
+                    typeWriter(urlElement, '/@myzgar', 100);
+                });
+            });
         });
 
         // Custom cursor implementation
@@ -833,25 +788,6 @@
                 cursorFollower.style.transform = 'scale(1)';
                 cursor.style.background = 'rgba(255, 255, 255, 0.8)';
             });
-        });
-
-        // 3D Effect for profile block
-        const profileBlock = document.getElementById('profile-block');
-        
-        document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            
-            profileBlock.style.transform = `translate(-50%, -50%) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            
-            // Update shadow based on rotation
-            const shadowX = xAxis * 2;
-            const shadowY = yAxis * 2;
-            profileBlock.style.boxShadow = `
-                ${shadowX}px ${shadowY}px 30px rgba(0, 0, 0, 0.7),
-                ${shadowX * 2}px ${shadowY * 2}px 40px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.05)
-            `;
         });
 
         // Music Player functionality
@@ -911,47 +847,6 @@
             }
         }, { once: true });
 
-        // URL Scrambler
-        document.getElementById('scramble-btn').addEventListener('click', () => {
-            const input = document.getElementById('url-input');
-            const url = input.value.trim();
-            
-            if (url) {
-                // Simple scrambling - replace characters with similar-looking ones
-                const scrambleMap = {
-                    'a': 'а', 'b': 'ḅ', 'c': 'с', 'd': 'ḍ', 'e': 'е',
-                    'g': 'ġ', 'h': 'ḥ', 'i': 'і', 'j': 'ј', 'k': 'ḳ',
-                    'l': 'ḷ', 'm': 'ṃ', 'n': 'ṇ', 'o': 'о', 'p': 'р',
-                    'q': 'ԛ', 'r': 'ṛ', 's': 'ѕ', 't': 'ṭ', 'u': 'υ',
-                    'v': 'ν', 'w': 'ω', 'x': 'х', 'y': 'у', 'z': 'ẓ',
-                    'A': 'Α', 'B': 'Β', 'C': 'С', 'D': 'Ḍ', 'E': 'Ε',
-                    'F': '𝐹', 'G': 'Ġ', 'H': 'Ḥ', 'I': 'Ι', 'J': 'Ј',
-                    'K': 'Κ', 'L': 'Ḷ', 'M': 'Μ', 'N': 'Ν', 'O': 'Ο',
-                    'P': 'Ρ', 'Q': 'Ԛ', 'R': 'Ṛ', 'S': 'Ѕ', 'T': 'Τ',
-                    'U': 'Υ', 'V': 'Ṿ', 'W': 'Ω', 'X': 'Χ', 'Y': 'Υ', 'Z': 'Ẓ'
-                };
-                
-                let scrambled = '';
-                for (let char of url) {
-                    scrambled += scrambleMap[char] || char;
-                }
-                
-                // Change the current URL
-                const newUrl = window.location.origin + window.location.pathname + '?scrambled=' + encodeURIComponent(scrambled);
-                window.history.pushState({}, '', newUrl);
-                
-                input.value = scrambled;
-                
-                // Visual feedback
-                const btn = document.getElementById('scramble-btn');
-                const originalText = btn.textContent;
-                btn.textContent = 'URL Changed!';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 1000);
-            }
-        });
-
         // Fetch Discord user data
         const userId = '1430655091584667660';
         
@@ -967,7 +862,27 @@
                 
                 // Set username with typewriter effect
                 const usernameElement = document.getElementById('profile-name');
-                typeWriter(usernameElement, '* ' + user.username, 150);
+                const bioElement = document.getElementById('profile-bio');
+                const urlElement = document.getElementById('url-text');
+                
+                // Clear existing content
+                usernameElement.innerHTML = '';
+                bioElement.innerHTML = '';
+                urlElement.innerHTML = '';
+                
+                // Remove typewriter animations
+                usernameElement.classList.remove('typewriter');
+                bioElement.classList.remove('typewriter-bio');
+                urlElement.classList.remove('typewriter');
+                
+                // Set new content with typewriter effect
+                setTimeout(() => {
+                    typeWriter(usernameElement, '* ' + user.username, 150, function() {
+                        typeWriter(bioElement, 'Full-stack developer passionate about creating innovative solutions and exploring new technologies.', 50, function() {
+                            typeWriter(urlElement, '/@' + user.username, 100);
+                        });
+                    });
+                }, 100);
                 
                 // Set tooltip with user ID
                 document.getElementById('user-tooltip').textContent = `uid: ${userId}`;
@@ -985,7 +900,19 @@
             .catch(err => {
                 console.error('Error fetching Discord data:', err);
                 const usernameElement = document.getElementById('profile-name');
-                typeWriter(usernameElement, '* YKT', 150);
+                const urlElement = document.getElementById('url-text');
+                
+                usernameElement.innerHTML = '';
+                urlElement.innerHTML = '';
+                
+                usernameElement.classList.remove('typewriter');
+                urlElement.classList.remove('typewriter');
+                
+                setTimeout(() => {
+                    typeWriter(usernameElement, '* YKT', 150);
+                    typeWriter(urlElement, '/@YKT', 100);
+                }, 100);
+                
                 document.getElementById('user-tooltip').textContent = `uid: ${userId}`;
             });
 
@@ -998,13 +925,6 @@
             visitorCount++;
             document.getElementById('visitor-count').textContent = visitorCount;
         }, 30000);
-
-        // Check if there's a scrambled URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const scrambledParam = urlParams.get('scrambled');
-        if (scrambledParam) {
-            document.getElementById('url-input').value = decodeURIComponent(scrambledParam);
-        }
     </script>
 </body>
 </html>
