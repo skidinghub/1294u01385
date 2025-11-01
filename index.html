@@ -301,6 +301,15 @@
             transform: translateZ(20px) scale(1.05);
         }
 
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #fff;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
         /* Tooltip styling */
         .tooltip {
             position: relative;
@@ -547,6 +556,17 @@
             50% { opacity: 1; }
         }
 
+        /* Typewriter animations */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #fff; }
+        }
+
         .glitch {
             animation: glitch 0.2s ease-in-out;
         }
@@ -669,7 +689,7 @@
                 <div class="profile-info">
                     <div class="name-and-badges">
                         <div class="tooltip">
-                            <div id="profile-name">Loading...</div>
+                            <div id="profile-name" class="typewriter">* myzgar</div>
                             <span class="tooltiptext" id="user-tooltip">uid: 0</span>
                         </div>
                         <div class="badge-group">
@@ -688,25 +708,25 @@
             <div class="profile-footer">
                 <div class="social-links">
                     <a href="https://discord.gg/temeria" target="_blank">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
                     </a>
                     <a href="https://open.spotify.com/user/31jp45akuf57akeioraa7bw5voz4?si=49c2170dbc6f49ae" target="_blank">
                         <img src="assets/spotify.png" alt="Spotify" class="social-icon">
                     </a>
                     <a href="https://discord.gg/athen" target="_blank">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
                     </a>
                     <a href="https://shadowfansub.com.tr/" target="_blank">
                         <img src="assets/world.png" alt="Website" class="social-icon">
                     </a>
                     <a href="https://discord.gg/marino" target="_blank">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
                     </a>
                     <a href="" target="_blank">
                         <img src="assets/github.png" alt="GitHub" class="social-icon">
                     </a>
                     <a href="https://discord.gg/susku" target="_blank">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
                     </a>
                 </div>
 
@@ -747,6 +767,27 @@
         document.addEventListener('click', function removeListener() {
             hideLoadingOverlay();
             document.removeEventListener('click', removeListener);
+        });
+
+        // Typewriter effect for username
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typewriter effect after page loads
+        window.addEventListener('load', function() {
+            const usernameElement = document.getElementById('profile-name');
+            typeWriter(usernameElement, '* myzgar', 150);
         });
 
         // Custom cursor implementation
@@ -924,8 +965,9 @@
                 const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${avatarFormat}`;
                 document.getElementById('profile-pic').src = avatarUrl;
                 
-                // Set username
-                document.getElementById('profile-name').textContent = user.username;
+                // Set username with typewriter effect
+                const usernameElement = document.getElementById('profile-name');
+                typeWriter(usernameElement, '* ' + user.username, 150);
                 
                 // Set tooltip with user ID
                 document.getElementById('user-tooltip').textContent = `uid: ${userId}`;
@@ -942,7 +984,8 @@
             })
             .catch(err => {
                 console.error('Error fetching Discord data:', err);
-                document.getElementById('profile-name').textContent = 'YKT';
+                const usernameElement = document.getElementById('profile-name');
+                typeWriter(usernameElement, '* YKT', 150);
                 document.getElementById('user-tooltip').textContent = `uid: ${userId}`;
             });
 
