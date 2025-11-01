@@ -185,6 +185,51 @@
             color: #fff;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             letter-spacing: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Tooltip styling */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            backdrop-filter: blur(5px);
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
 
         .badge-group {
@@ -397,7 +442,10 @@
                 </div>
                 <div class="profile-info">
                     <div class="name-and-badges">
-                        <div id="profile-name">Loading...</div>
+                        <div class="tooltip">
+                            <div id="profile-name">Loading...</div>
+                            <span class="tooltiptext" id="user-tooltip">uid: 0</span>
+                        </div>
                         <div class="badge-group">
                             <div class="badge">👑</div>
                             <div class="badge">⚡</div>
@@ -480,7 +528,7 @@
         });
         
         // Interactive elements cursor effect
-        const interactiveElements = document.querySelectorAll('a, button, .profile-picture, .badge, .social-icon');
+        const interactiveElements = document.querySelectorAll('a, button, .profile-picture, .badge, .social-icon, .tooltip');
         
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -553,6 +601,9 @@
                 // Set username
                 document.getElementById('profile-name').textContent = user.username;
                 
+                // Set tooltip with user ID
+                document.getElementById('user-tooltip').textContent = `uid: ${userId}`;
+                
                 // Try to get banner
                 fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`)
                     .then(res => res.json())
@@ -566,6 +617,7 @@
             .catch(err => {
                 console.error('Error fetching Discord data:', err);
                 document.getElementById('profile-name').textContent = 'YKT';
+                document.getElementById('user-tooltip').textContent = `uid: ${userId}`;
             });
 
         // Visitor counter simulation
