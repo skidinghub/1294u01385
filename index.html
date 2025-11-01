@@ -340,7 +340,6 @@
             border-right: 2px solid #fff;
             white-space: nowrap;
             margin: 0 auto;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
         }
 
         .typewriter-bio {
@@ -348,7 +347,6 @@
             white-space: normal;
             word-wrap: break-word;
             border-right: 2px solid #fff;
-            animation: typing-bio 4s steps(60, end), blink-caret 0.75s step-end infinite;
         }
 
         /* Tooltip styling */
@@ -504,7 +502,6 @@
 
         .url-display .typewriter {
             font-size: 14px;
-            animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite;
         }
 
         /* 3D Floating elements */
@@ -573,7 +570,6 @@
             50% { opacity: 1; }
         }
 
-        /* Typewriter animations */
         @keyframes typing {
             from { width: 0 }
             to { width: 100% }
@@ -791,6 +787,7 @@
         function typeWriter(element, text, speed = 100, callback = null) {
             let i = 0;
             element.innerHTML = '';
+            element.style.animation = `typing ${text.length * speed / 100}s steps(${text.length}, end), blink-caret 0.75s step-end infinite`;
             
             function type() {
                 if (i < text.length) {
@@ -804,19 +801,34 @@
             type();
         }
 
+        // Bio changer function
+        function changeBio() {
+            const bioElement = document.getElementById('profile-bio');
+            
+            // First bio
+            typeWriter(bioElement, 'better than nirvana', 100, function() {
+                // Wait 2 seconds then change to second bio
+                setTimeout(() => {
+                    bioElement.innerHTML = '';
+                    typeWriter(bioElement, 'long live skel', 100);
+                }, 2000);
+            });
+        }
+
         // Initialize typewriter effects
         window.addEventListener('load', function() {
             const usernameElement = document.getElementById('profile-name');
-            const bioElement = document.getElementById('profile-bio');
             const urlElement = document.getElementById('url-text');
             
             // Start with username
             typeWriter(usernameElement, '* myzgar', 150, function() {
                 // Then start bio
-                typeWriter(bioElement, 'Full-stack developer passionate about creating innovative solutions and exploring new technologies.', 50, function() {
-                    // Then start URL
+                changeBio();
+                
+                // Then start URL
+                setTimeout(() => {
                     typeWriter(urlElement, '/@myzgar', 100);
-                });
+                }, 1000);
             });
         });
 
@@ -956,28 +968,43 @@
                 
                 // Set username with typewriter effect
                 const usernameElement = document.getElementById('profile-name');
-                const bioElement = document.getElementById('profile-bio');
                 const urlElement = document.getElementById('url-text');
                 
                 // Clear existing content
                 usernameElement.innerHTML = '';
-                bioElement.innerHTML = '';
                 urlElement.innerHTML = '';
                 
                 // Remove typewriter animations
                 usernameElement.classList.remove('typewriter');
-                bioElement.classList.remove('typewriter-bio');
                 urlElement.classList.remove('typewriter');
                 
                 // Set new content with typewriter effect
                 setTimeout(() => {
                     typeWriter(usernameElement, '* ' + user.username, 150, function() {
-                        typeWriter(bioElement, 'Full-stack developer passionate about creating innovative solutions and exploring new technologies.', 50, function() {
+                        // Change bio
+                        changeBio();
+                        
+                        // Change URL
+                        setTimeout(() => {
                             typeWriter(urlElement, '/@' + user.username, 100);
                             
                             // Change URL pathname to Discord username
                             window.history.pushState({}, '', '/@' + user.username);
-                        });
+                            
+                            // Change page title with typewriter effect
+                            document.title = '';
+                            let titleText = user.username + ' - Dox';
+                            let titleIndex = 0;
+                            
+                            function typeTitle() {
+                                if (titleIndex < titleText.length) {
+                                    document.title += titleText.charAt(titleIndex);
+                                    titleIndex++;
+                                    setTimeout(typeTitle, 100);
+                                }
+                            }
+                            typeTitle();
+                        }, 1000);
                     });
                 }, 100);
                 
@@ -997,25 +1024,40 @@
             .catch(err => {
                 console.error('Error fetching Discord data:', err);
                 const usernameElement = document.getElementById('profile-name');
-                const bioElement = document.getElementById('profile-bio');
                 const urlElement = document.getElementById('url-text');
                 
                 usernameElement.innerHTML = '';
-                bioElement.innerHTML = '';
                 urlElement.innerHTML = '';
                 
                 usernameElement.classList.remove('typewriter');
-                bioElement.classList.remove('typewriter-bio');
                 urlElement.classList.remove('typewriter');
                 
                 setTimeout(() => {
                     typeWriter(usernameElement, '* YKT', 150, function() {
-                        typeWriter(bioElement, 'Full-stack developer passionate about creating innovative solutions and exploring new technologies.', 50, function() {
+                        // Change bio
+                        changeBio();
+                        
+                        // Change URL
+                        setTimeout(() => {
                             typeWriter(urlElement, '/@YKT', 100);
                             
                             // Change URL pathname to Discord username
                             window.history.pushState({}, '', '/@YKT');
-                        });
+                            
+                            // Change page title with typewriter effect
+                            document.title = '';
+                            let titleText = 'YKT - Dox';
+                            let titleIndex = 0;
+                            
+                            function typeTitle() {
+                                if (titleIndex < titleText.length) {
+                                    document.title += titleText.charAt(titleIndex);
+                                    titleIndex++;
+                                    setTimeout(typeTitle, 100);
+                                }
+                            }
+                            typeTitle();
+                        }, 1000);
                     });
                 }, 100);
                 
