@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YKT - Developer Profile</title>
-    <link rel="icon" type="image/png" href="assets/ico.png">
+    <title>⌨️ YKT - Developer Profile</title>
     <style>
         * {
             margin: 0;
@@ -17,14 +16,18 @@
         body {
             background-color: #000;
             color: #fff;
-            overflow: hidden;
+            overflow-x: hidden;
             min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #000 70%);
         }
 
         .container {
             width: 100%;
             height: 100vh;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Custom cursor styles */
@@ -81,7 +84,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIj48L2ZlVHVyYnVsZW5jZT48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIj48L2ZlQ29sb3JNYXRyaXg+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSI+PC9yZWN0Pjwvc3ZnPg==');
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
             pointer-events: none;
             z-index: 2;
             opacity: 0.3;
@@ -390,10 +399,10 @@
                     <div class="name-and-badges">
                         <div id="profile-name">Loading...</div>
                         <div class="badge-group">
-                            <img src="assets/staff.png" alt="Staff" class="badge">
-                            <img src="assets/active_developer.png" alt="Active Developer" class="badge">
-                            <img src="assets/quests.png" alt="Quests" class="badge">
-                            <img src="assets/nitro.png" alt="Nitro" class="badge">
+                            <div class="badge">👑</div>
+                            <div class="badge">⚡</div>
+                            <div class="badge">💎</div>
+                            <div class="badge">🚀</div>
                         </div>
                     </div>
                     <div id="profile-bio">Full-stack developer passionate about creating innovative solutions and exploring new technologies.</div>
@@ -405,36 +414,30 @@
             <div class="profile-footer">
                 <div class="social-links">
                     <a href="https://discord.gg/temeria" target="_blank">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                        <div class="social-icon">💬</div>
                     </a>
                     <a href="https://open.spotify.com/user/31jp45akuf57akeioraa7bw5voz4?si=49c2170dbc6f49ae" target="_blank">
-                        <img src="assets/spotify.png" alt="Spotify" class="social-icon">
+                        <div class="social-icon">🎵</div>
                     </a>
                     <a href="https://discord.gg/athen" target="_blank">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                        <div class="social-icon">💬</div>
                     </a>
                     <a href="https://shadowfansub.com.tr/" target="_blank">
-                        <img src="assets/world.png" alt="Website" class="social-icon">
+                        <div class="social-icon">🌐</div>
                     </a>
                     <a href="https://discord.gg/marino" target="_blank">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                        <div class="social-icon">💬</div>
                     </a>
                     <a href="" target="_blank">
-                        <img src="assets/github.png" alt="GitHub" class="social-icon">
+                        <div class="social-icon">💻</div>
                     </a>
                     <a href="https://discord.gg/susku" target="_blank">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                        <div class="social-icon">💬</div>
                     </a>
                 </div>
 
                 <div class="visitor-counter">
-                    <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                        </path>
-                    </svg>
+                    <div class="visitor-icon">👁️</div>
                     <span id="visitor-count">0</span>
                 </div>
             </div>
@@ -518,20 +521,16 @@
                     scrambled += scrambleMap[char] || char;
                 }
                 
-                input.value = scrambled;
+                // Change the current URL
+                const newUrl = window.location.origin + window.location.pathname + '?scrambled=' + encodeURIComponent(scrambled);
+                window.history.pushState({}, '', newUrl);
                 
-                // Create a temporary element to copy to clipboard
-                const tempInput = document.createElement('input');
-                tempInput.value = scrambled;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
+                input.value = scrambled;
                 
                 // Visual feedback
                 const btn = document.getElementById('scramble-btn');
                 const originalText = btn.textContent;
-                btn.textContent = 'Copied!';
+                btn.textContent = 'URL Changed!';
                 setTimeout(() => {
                     btn.textContent = originalText;
                 }, 1000);
@@ -539,7 +538,7 @@
         });
 
         // Fetch Discord user data
-        const userId = '1001063456566415400';
+        const userId = '1430655091584667660';
         
         fetch(`https://api.lanyard.rest/v1/users/${userId}`)
             .then(res => res.json())
@@ -566,7 +565,7 @@
             })
             .catch(err => {
                 console.error('Error fetching Discord data:', err);
-                document.getElementById('profile-name').textContent = 'myzgar';
+                document.getElementById('profile-name').textContent = 'YKT';
             });
 
         // Visitor counter simulation
@@ -578,6 +577,13 @@
             visitorCount++;
             document.getElementById('visitor-count').textContent = visitorCount;
         }, 30000);
+
+        // Check if there's a scrambled URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const scrambledParam = urlParams.get('scrambled');
+        if (scrambledParam) {
+            document.getElementById('url-input').value = decodeURIComponent(scrambledParam);
+        }
     </script>
 </body>
 </html>
