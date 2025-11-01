@@ -27,6 +27,7 @@
             overflow-x: hidden;
             min-height: 100vh;
             background: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #000 70%);
+            perspective: 1000px;
         }
 
         .container {
@@ -36,6 +37,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transform-style: preserve-3d;
         }
 
         /* Loading Overlay */
@@ -119,6 +121,7 @@
             z-index: 1;
             pointer-events: none;
             opacity: 0.7;
+            transform: translateZ(-100px) scale(1.2);
         }
 
         .noise-overlay {
@@ -137,6 +140,7 @@
             pointer-events: none;
             z-index: 2;
             opacity: 0.3;
+            transform: translateZ(-50px);
         }
 
         /* Music Player - Moved to bottom */
@@ -144,7 +148,7 @@
             position: fixed;
             bottom: 80px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateZ(20px);
             background: rgba(10, 10, 10, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -152,10 +156,11 @@
             z-index: 25;
             backdrop-filter: blur(5px);
             transition: transform 0.3s ease;
+            transform-style: preserve-3d;
         }
 
         .music-player:hover {
-            transform: translateX(-50%) scale(1.02);
+            transform: translateX(-50%) translateZ(30px) scale(1.02);
         }
 
         .music-controls {
@@ -172,11 +177,12 @@
             padding: 5px 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            transform: translateZ(10px);
         }
 
         .music-btn:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
+            transform: translateZ(15px) scale(1.05);
         }
 
         .song-info {
@@ -184,14 +190,15 @@
             color: rgba(255, 255, 255, 0.8);
             margin-top: 5px;
             text-align: center;
+            transform: translateZ(5px);
         }
 
-        /* Profile block styling */
+        /* Profile block styling with 3D effects */
         #profile-block {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
             width: 820px;
             min-height: 332px;
             background: rgba(10, 10, 10, 0.85);
@@ -207,6 +214,7 @@
                 0 0 30px rgba(0, 0, 0, 0.7),
                 0 10px 40px rgba(0, 0, 0, 0.5),
                 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -220,6 +228,7 @@
             overflow: hidden;
             padding: 15px;
             position: relative;
+            transform-style: preserve-3d;
         }
 
         .profile-header::before {
@@ -236,11 +245,12 @@
             position: relative;
             width: 150px;
             height: 150px;
+            transform-style: preserve-3d;
             transition: transform 0.5s ease;
         }
 
         .profile-container:hover {
-            transform: scale(1.05);
+            transform: rotateY(15deg) scale(1.05) translateZ(10px);
         }
 
         .profile-container::after {
@@ -262,11 +272,12 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #000;
+            transform: translateZ(20px);
             transition: transform 0.3s ease;
         }
 
         .profile-picture:hover {
-            transform: scale(1.05);
+            transform: translateZ(30px) scale(1.05);
         }
 
         .profile-info {
@@ -274,6 +285,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            transform-style: preserve-3d;
         }
 
         .name-and-badges {
@@ -281,6 +293,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            transform-style: preserve-3d;
         }
 
         #profile-name {
@@ -291,11 +304,12 @@
             letter-spacing: 2px;
             position: relative;
             cursor: pointer;
+            transform: translateZ(10px);
             transition: transform 0.3s ease;
         }
 
         #profile-name:hover {
-            transform: scale(1.05);
+            transform: translateZ(20px) scale(1.05);
         }
 
         /* Username effect */
@@ -333,12 +347,15 @@
             overflow: hidden;
             white-space: normal;
             word-wrap: break-word;
+            border-right: 2px solid #fff;
+            animation: typing-bio 4s steps(60, end), blink-caret 0.75s step-end infinite;
         }
 
         /* Tooltip styling */
         .tooltip {
             position: relative;
             display: inline-block;
+            transform-style: preserve-3d;
         }
 
         .tooltip .tooltiptext {
@@ -360,6 +377,7 @@
             font-size: 12px;
             font-family: 'Courier New', monospace;
             backdrop-filter: blur(5px);
+            transform: translateZ(30px);
         }
 
         .tooltip .tooltiptext::after {
@@ -381,16 +399,18 @@
         .badge-group {
             display: flex;
             gap: 8px;
+            transform-style: preserve-3d;
         }
 
         .badge {
             width: 24px;
             height: 24px;
             transition: transform 0.3s ease;
+            transform-style: preserve-3d;
         }
 
         .badge:hover {
-            transform: scale(1.2);
+            transform: rotateY(180deg) translateZ(10px) scale(1.2);
         }
 
         #profile-bio {
@@ -398,6 +418,7 @@
             font-size: 16px;
             line-height: 1.5;
             min-height: 48px;
+            transform: translateZ(5px);
         }
 
         .bio-separator {
@@ -405,18 +426,21 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             margin: 10px 0;
+            transform: translateZ(5px);
         }
 
         .profile-footer {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            transform-style: preserve-3d;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
             gap: 15px;
+            transform-style: preserve-3d;
         }
 
         .social-icon {
@@ -424,10 +448,12 @@
             height: 36px;
             transition: all 0.3s ease;
             filter: brightness(0.8);
+            transform-style: preserve-3d;
+            transform: translateZ(5px);
         }
 
         .social-icon:hover {
-            transform: scale(1.2) rotateY(15deg);
+            transform: translateZ(15px) scale(1.2) rotateY(15deg);
             filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
         }
 
@@ -440,11 +466,12 @@
             border-radius: 20px;
             font-size: 14px;
             align-self: flex-start;
+            transform: translateZ(10px);
             transition: transform 0.3s ease;
         }
 
         .visitor-counter:hover {
-            transform: scale(1.05);
+            transform: translateZ(20px) scale(1.05);
         }
 
         .visitor-icon {
@@ -457,7 +484,7 @@
             position: fixed;
             bottom: 20px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateZ(10px);
             background: rgba(10, 10, 10, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -467,6 +494,12 @@
             font-family: 'Courier New', monospace;
             font-size: 14px;
             color: rgba(255, 255, 255, 0.8);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .url-display:hover {
+            transform: translateX(-50%) translateZ(20px) scale(1.02);
         }
 
         .url-display .typewriter {
@@ -474,14 +507,40 @@
             animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite;
         }
 
-        /* 3D effect only on bio hover */
-        .bio-3d {
-            transition: all 0.3s ease;
+        /* 3D Floating elements */
+        .floating-element {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            z-index: 5;
+            transform-style: preserve-3d;
         }
 
-        .bio-3d:hover {
-            transform: translateZ(10px) rotateX(5deg) rotateY(5deg);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(4) {
+            bottom: 15%;
+            right: 25%;
+            animation-delay: 3s;
         }
 
         /* Animations */
@@ -499,6 +558,11 @@
             100% { transform: translate(0); }
         }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateZ(0); }
+            50% { transform: translateY(-20px) translateZ(10px); }
+        }
+
         @keyframes pulse {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.05); opacity: 0.8; }
@@ -511,6 +575,11 @@
 
         /* Typewriter animations */
         @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes typing-bio {
             from { width: 0 }
             to { width: 100% }
         }
@@ -582,7 +651,7 @@
             .music-player {
                 bottom: 60px;
                 left: 50%;
-                transform: translateX(-50%);
+                transform: translateX(-50%) translateZ(20px);
                 width: 90%;
             }
 
@@ -606,13 +675,29 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
+    <!-- Floating 3D elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
     <div class="container">
         <!-- Background Video -->
         <video id="background-video" loop muted autoplay>
-            <source src="https://cdn.pixabay.com/video/2023/02/21/159690-804111549_large.mp4" type="video/mp4">
+            <source src="https://files.catbox.moe/vnfhyw.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="noise-overlay"></div>
+
+        <!-- Music Player - Moved to bottom -->
+        <div class="music-player">
+            <div class="music-controls">
+                <button id="play-btn" class="music-btn">▶ Play</button>
+                <button id="pause-btn" class="music-btn">⏸ Pause</button>
+                <button id="next-btn" class="music-btn">⏭ Next</button>
+            </div>
+            <div class="song-info" id="current-song">No song playing</div>
+        </div>
 
         <!-- Profile Block -->
         <div id="profile-block">
@@ -624,7 +709,7 @@
                     <div class="name-and-badges">
                         <div class="tooltip">
                             <div id="profile-name" class="username-effect typewriter">* myzgar</div>
-                            <span class="tooltiptext" id="user-tooltip">uid: 0</span>
+                            <span class="tooltiptext">uid: 0</span>
                         </div>
                         <div class="badge-group">
                             <img src="assets/staff.png" alt="Staff" class="badge">
@@ -633,7 +718,7 @@
                             <img src="assets/nitro.png" alt="Nitro" class="badge">
                         </div>
                     </div>
-                    <div id="profile-bio" class="bio-3d typewriter-bio"></div>
+                    <div id="profile-bio" class="typewriter-bio"></div>
                 </div>
             </div>
 
@@ -675,16 +760,6 @@
                     <span id="visitor-count">0</span>
                 </div>
             </div>
-        </div>
-
-        <!-- Music Player - Moved to bottom -->
-        <div class="music-player">
-            <div class="music-controls">
-                <button id="play-btn" class="music-btn">▶ Play</button>
-                <button id="pause-btn" class="music-btn">⏸ Pause</button>
-                <button id="next-btn" class="music-btn">⏭ Next</button>
-            </div>
-            <div class="song-info" id="current-song">No song playing</div>
         </div>
 
         <!-- URL Display -->
@@ -790,6 +865,25 @@
             });
         });
 
+        // 3D Effect for profile block
+        const profileBlock = document.getElementById('profile-block');
+        
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            
+            profileBlock.style.transform = `translate(-50%, -50%) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            
+            // Update shadow based on rotation
+            const shadowX = xAxis * 2;
+            const shadowY = yAxis * 2;
+            profileBlock.style.boxShadow = `
+                ${shadowX}px ${shadowY}px 30px rgba(0, 0, 0, 0.7),
+                ${shadowX * 2}px ${shadowY * 2}px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05)
+            `;
+        });
+
         // Music Player functionality
         const playlist = [
             { url: 'https://qu.ax/nqWbN.mp3', name: 'back to my day job - skel' },
@@ -880,12 +974,15 @@
                     typeWriter(usernameElement, '* ' + user.username, 150, function() {
                         typeWriter(bioElement, 'Full-stack developer passionate about creating innovative solutions and exploring new technologies.', 50, function() {
                             typeWriter(urlElement, '/@' + user.username, 100);
+                            
+                            // Change URL pathname to Discord username
+                            window.history.pushState({}, '', '/@' + user.username);
                         });
                     });
                 }, 100);
                 
                 // Set tooltip with user ID
-                document.getElementById('user-tooltip').textContent = `uid: ${userId}`;
+                document.querySelector('.tooltip .tooltiptext').textContent = 'uid: 0';
                 
                 // Try to get banner
                 fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`)
@@ -900,20 +997,29 @@
             .catch(err => {
                 console.error('Error fetching Discord data:', err);
                 const usernameElement = document.getElementById('profile-name');
+                const bioElement = document.getElementById('profile-bio');
                 const urlElement = document.getElementById('url-text');
                 
                 usernameElement.innerHTML = '';
+                bioElement.innerHTML = '';
                 urlElement.innerHTML = '';
                 
                 usernameElement.classList.remove('typewriter');
+                bioElement.classList.remove('typewriter-bio');
                 urlElement.classList.remove('typewriter');
                 
                 setTimeout(() => {
-                    typeWriter(usernameElement, '* YKT', 150);
-                    typeWriter(urlElement, '/@YKT', 100);
+                    typeWriter(usernameElement, '* YKT', 150, function() {
+                        typeWriter(bioElement, 'Full-stack developer passionate about creating innovative solutions and exploring new technologies.', 50, function() {
+                            typeWriter(urlElement, '/@YKT', 100);
+                            
+                            // Change URL pathname to Discord username
+                            window.history.pushState({}, '', '/@YKT');
+                        });
+                    });
                 }, 100);
                 
-                document.getElementById('user-tooltip').textContent = `uid: ${userId}`;
+                document.querySelector('.tooltip .tooltiptext').textContent = 'uid: 0';
             });
 
         // Visitor counter simulation
