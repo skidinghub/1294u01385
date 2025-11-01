@@ -1,61 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dox</title>
+    <title>YKT - Developer Profile</title>
     <link rel="icon" type="image/png" href="assets/ico.png">
-    <link href="https://fonts.googleapis.com/css2?family=Retro+Gaming&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            cursor: none;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Custom cursor styles */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.15s ease;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+            z-index: 9997;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Background with subtle animation */
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIj48L2ZlVHVyYnVsZW5jZT48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIj48L2ZlQ29sb3JNYXRyaXg+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSI+PC9yZWN0Pjwvc3ZnPg==');
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.3;
+        }
+
+        /* Profile block styling */
+        #profile-block {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 820px;
+            min-height: 332px;
+            background: rgba(10, 10, 10, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(40, 40, 40, 0.8) 100%);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 15px;
+            position: relative;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+        }
+
+        .profile-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+
+        .profile-container::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff0080, #00ff80, #0080ff, #8000ff);
+            z-index: -1;
+            animation: rotate 3s linear infinite;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #000;
+        }
+
+        .profile-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .name-and-badges {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        #profile-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .badge {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s;
+        }
+
+        .badge:hover {
+            transform: scale(1.2);
+        }
+
+        #profile-bio {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .bio-separator {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            margin: 10px 0;
+        }
+
+        .profile-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            transition: all 0.3s ease;
+            filter: brightness(0.8);
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+        }
+
+        .visitor-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            align-self: flex-start;
+        }
+
+        .visitor-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* URL Scrambler */
+        .url-scrambler {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 25;
+            backdrop-filter: blur(5px);
+        }
+
+        .url-scrambler input {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            padding: 5px 10px;
+            width: 200px;
+            margin-right: 5px;
+        }
+
+        .url-scrambler button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .url-scrambler button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Animations */
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitch {
+            animation: glitch 0.2s ease-in-out;
+        }
+
+        /* Responsive design */
+        @media (max-width: 430px) {
+            #profile-block {
+                width: 90vw;
+                max-width: 350px;
+                min-height: 280px;
+                padding: 15px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                height: auto;
+            }
+
+            .profile-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-info {
+                align-items: center;
+                text-align: center;
+            }
+
+            .name-and-badges {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+
+            #profile-name {
+                font-size: 24px;
+            }
+
+            .badge {
+                width: 20px;
+                height: 20px;
+            }
+
+            #profile-bio {
+                font-size: 14px;
+            }
+
+            .social-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .url-scrambler {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+
+            .url-scrambler input {
+                width: calc(100% - 70px);
+            }
+        }
+    </style>
 </head>
 
-<body class="home-theme" onload="initMedia()">
-
-    <div class="custom-cursor"></div>
-
-    <div id="start-screen">
-        <div id="start-text"></div>
-    </div>
+<body>
+    <!-- Custom cursor elements -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
 
     <div class="container">
-        <video id="background" loop playsinline webkit-playsinline>
-            <source id="bgSource" src="" type="video/webm">
-        </video>
+        <!-- Background -->
+        <div id="background"></div>
+        <div class="noise-overlay"></div>
 
-        <div class="glitch-overlay"></div>
-        <div id="hacker-overlay" class="hidden">
-        </div>
-        <div id="snow-overlay" class="hidden">
-        </div>
-
+        <!-- Profile Block -->
         <div id="profile-block">
             <div class="profile-header">
                 <div class="profile-container">
-                    <img src="" alt="Profile" class="profile-picture">
+                    <img src="" alt="Profile" class="profile-picture" id="profile-pic">
                 </div>
                 <div class="profile-info">
                     <div class="name-and-badges">
-                        <div id="profile-name">aa</div>
-                        <div class="badge-box">
-                            <div class="badge-box-inner">
-                                <div class="badge-group">
-                                    <div class="badge-container">
-                                        <img src="assets/staff.png" alt="Staff" class="badge" />
-                                    </div>
-                                    <div class="badge-container">
-                                        <img src="assets/active_developer.png" alt="Active Developer" class="badge">
-                                    </div>
-                                    <div class="badge-container">
-                                        <img src="assets/quests.png" alt="Quests" class="badge">
-                                    </div>
-                                    <div class="badge-container">
-                                        <img src="assets/nitro.png" alt="Nitro" class="badge">
-                                    </div>
-                                </div>
-                            </div>
+                        <div id="profile-name">Loading...</div>
+                        <div class="badge-group">
+                            <img src="assets/staff.png" alt="Staff" class="badge">
+                            <img src="assets/active_developer.png" alt="Active Developer" class="badge">
+                            <img src="assets/quests.png" alt="Quests" class="badge">
+                            <img src="assets/nitro.png" alt="Nitro" class="badge">
                         </div>
                     </div>
-                    <div id="profile-bio"></div>
+                    <div id="profile-bio">Full-stack developer passionate about creating innovative solutions and exploring new technologies.</div>
                 </div>
             </div>
 
@@ -66,23 +407,22 @@
                     <a href="https://discord.gg/temeria" target="_blank">
                         <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
-                    <a href="https://open.spotify.com/user/31bfqeqqgqsafrj6m5qqvmfhd2x4?si=f131aa1991234e1f"
-                        target="_blank">
+                    <a href="https://open.spotify.com/user/31jp45akuf57akeioraa7bw5voz4?si=49c2170dbc6f49ae" target="_blank">
                         <img src="assets/spotify.png" alt="Spotify" class="social-icon">
                     </a>
-                    <a href="http://dc.gg/xzx" target="_blank">
+                    <a href="https://discord.gg/athen" target="_blank">
                         <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
-                    <a href="https://skidinghub.github.io/1294u01385/" target="_blank">
+                    <a href="https://shadowfansub.com.tr/" target="_blank">
                         <img src="assets/world.png" alt="Website" class="social-icon">
                     </a>
-                    <a href="http://dc.gg/xzx" target="_blank">
+                    <a href="https://discord.gg/marino" target="_blank">
                         <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
-                    <a href="https://github.com/skidinghub/" target="_blank">
+                    <a href="" target="_blank">
                         <img src="assets/github.png" alt="GitHub" class="social-icon">
                     </a>
-                    <a href="http://dc.gg/xzx" target="_blank">
+                    <a href="https://discord.gg/susku" target="_blank">
                         <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
                 </div>
@@ -95,175 +435,149 @@
                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                         </path>
                     </svg>
-                    <span id="visitor-count"></span>
-                    <div class="counter-wrapper">
-                    <span id="visitor-count">2M</span>
-                    <span class="tooltip">Profile Views</span>
+                    <span id="visitor-count">0</span>
                 </div>
             </div>
         </div>
 
-        <div id="skills-block" class="hidden">
-            <h2 class="skills-title">Programming Skills</h2>
-            <div class="skill">
-                <div class="skill-name">
-                    <img src="" alt="Python" class="skill-icon">
-                    <span>Python</span>
-                    <span>87%</span>
-                </div>
-                <div class="skill-bar-container">
-                    <div id="python-bar" class="skill-bar"></div>
-                </div>
-            </div>
-            <div class="skill">
-                <div class="skill-name">
-                    <img src="" alt="C++" class="skill-icon">
-                    <span>C++</span>
-                    <span>75%</span>
-                </div>
-                <div class="skill-bar-container">
-                    <div id="cpp-bar" class="skill-bar"></div>
-                </div>
-            </div>
-            <div class="skill">
-                <div class="skill-name">
-                    <img src="" alt="C#" class="skill-icon">
-                    <span>C#</span>
-                    <span>80%</span>
-                </div>
-                <div class="skill-bar-container">
-                    <div id="csharp-bar" class="skill-bar"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="results-button-container" class="hidden">
-            <button id="results-theme">View Results</button>
-            <div id="results-hint" class="hidden">Click again to return to profile</div>
-        </div>
-
-        <div class="controls" style="display: none;">
-            <div id="home-theme" class="theme-button">1</div>
-            <div id="hacker-theme" class="theme-button">2</div>
-            <div id="rain-theme" class="theme-button">3</div>
-            <div id="anime-theme" class="theme-button">4</div>
-            <div id="car-theme" class="theme-button">5</div>
-        </div>
-
-        <div class="top-controls">
-            <div class="volume-control">
-                <svg id="volume-icon" class="volume-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
-                    </path>
-                </svg>
-                <input id="volume-slider" class="slider" type="range" min="0" max="1" step="0.01" value="0.3">
-            </div>
-            <div class="transparency-control">
-                <input id="transparency-slider" hidden>
-            </div>
+        <!-- URL Scrambler -->
+        <div class="url-scrambler">
+            <input type="text" id="url-input" placeholder="Enter URL to scramble">
+            <button id="scramble-btn">Scramble</button>
         </div>
     </div>
 
-    <audio id="background-music" loop>
-        <source id="bgmSource" src="" type="audio/mp4">
-    </audio>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
     <script>
-        const userId = '1430655091584667660';
-        let name = "FUCk";
+        // Custom cursor implementation
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }, 100);
+            
+            // Create cursor trail
+            const trail = document.createElement('div');
+            trail.classList.add('cursor-trail');
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            document.body.appendChild(trail);
+            
+            setTimeout(() => {
+                trail.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(trail);
+                }, 300);
+            }, 100);
+        });
+        
+        // Interactive elements cursor effect
+        const interactiveElements = document.querySelectorAll('a, button, .profile-picture, .badge, .social-icon');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(1.8)';
+                cursor.style.background = 'rgba(255, 50, 50, 0.8)';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+                cursor.style.background = 'rgba(255, 255, 255, 0.8)';
+            });
+        });
 
+        // URL Scrambler
+        document.getElementById('scramble-btn').addEventListener('click', () => {
+            const input = document.getElementById('url-input');
+            const url = input.value.trim();
+            
+            if (url) {
+                // Simple scrambling - replace characters with similar-looking ones
+                const scrambleMap = {
+                    'a': 'а', 'b': 'ḅ', 'c': 'с', 'd': 'ḍ', 'e': 'е',
+                    'g': 'ġ', 'h': 'ḥ', 'i': 'і', 'j': 'ј', 'k': 'ḳ',
+                    'l': 'ḷ', 'm': 'ṃ', 'n': 'ṇ', 'o': 'о', 'p': 'р',
+                    'q': 'ԛ', 'r': 'ṛ', 's': 'ѕ', 't': 'ṭ', 'u': 'υ',
+                    'v': 'ν', 'w': 'ω', 'x': 'х', 'y': 'у', 'z': 'ẓ',
+                    'A': 'Α', 'B': 'Β', 'C': 'С', 'D': 'Ḍ', 'E': 'Ε',
+                    'F': '𝐹', 'G': 'Ġ', 'H': 'Ḥ', 'I': 'Ι', 'J': 'Ј',
+                    'K': 'Κ', 'L': 'Ḷ', 'M': 'Μ', 'N': 'Ν', 'O': 'Ο',
+                    'P': 'Ρ', 'Q': 'Ԛ', 'R': 'Ṛ', 'S': 'Ѕ', 'T': 'Τ',
+                    'U': 'Υ', 'V': 'Ṿ', 'W': 'Ω', 'X': 'Χ', 'Y': 'Υ', 'Z': 'Ẓ'
+                };
+                
+                let scrambled = '';
+                for (let char of url) {
+                    scrambled += scrambleMap[char] || char;
+                }
+                
+                input.value = scrambled;
+                
+                // Create a temporary element to copy to clipboard
+                const tempInput = document.createElement('input');
+                tempInput.value = scrambled;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                // Visual feedback
+                const btn = document.getElementById('scramble-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 1000);
+            }
+        });
+
+        // Fetch Discord user data
+        const userId = '1001063456566415400';
+        
         fetch(`https://api.lanyard.rest/v1/users/${userId}`)
             .then(res => res.json())
             .then(data => {
                 const user = data.data.discord_user;
-                console.warn(user);
-
-                // Avatar
+                
+                // Set avatar
                 const avatarFormat = user.avatar.startsWith('a_') ? 'gif' : 'png';
                 const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${avatarFormat}`;
-                document.querySelector('.profile-picture').src = avatarUrl;
-
-                // Banner
+                document.getElementById('profile-pic').src = avatarUrl;
+                
+                // Set username
+                document.getElementById('profile-name').textContent = user.username;
+                
+                // Try to get banner
                 fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`)
                     .then(res => res.json())
                     .then(data => {
                         const bannerUrl = data.banner?.link;
                         if (bannerUrl) {
                             document.querySelector('.profile-header').style.backgroundImage = `url('${bannerUrl}')`;
-                        } else {
-                            // Use default banner if no banner exists
-                            document.querySelector('.profile-header').style.backgroundImage = `url('assets/def_banner.webp')`;
                         }
                     });
-
-                // Name
-                document.querySelector('#profile-name').textContent = user.username;
-            });
-    </script>
-    <script async src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const counter = new Counter({
-                workspace: 'counter',
+            })
+            .catch(err => {
+                console.error('Error fetching Discord data:', err);
+                document.getElementById('profile-name').textContent = 'myzgar';
             });
 
-            const counterName = "cuner"; // counter name
-            const cookieName = "lastVisitTime"; // cookie name
-
-            function setCookie(name, value, hours) {
-                const date = new Date();
-                date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
-                document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
-            }
-
-            function getCookie(name) {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
-            }
-
-            async function updateVisitorCount() {
-                const lastVisit = getCookie(cookieName);
-                const now = Date.now();
-
-                if (lastVisit && now - parseInt(lastVisit) < 12 * 60 * 60 * 1000) {
-                    // Less than 12 hours passed => only get the count
-                    try {
-                        const result = await counter.get(counterName);
-                        document.getElementById('visitor-count').textContent = result.data.value || result.data.up_count || "0";
-                        console.log("Counter not incremented (already visited).");
-                    } catch (error) {
-                        handleError(error);
-                    }
-                } else {
-                    // 12 hours passed or first visit => increment counter + set cookie
-                    try {
-                        const result = await counter.up(counterName);
-                        document.getElementById('visitor-count').textContent = result.data.up_count;
-                        setCookie(cookieName, now.toString(), 12); // 12 hour cookie
-                        console.log("Counter incremented.");
-                    } catch (error) {
-                        handleError(error);
-                    }
-                }
-            }
-
-            function handleError(error) {
-                console.error('Counter error:', error);
-                const el = document.getElementById('visitor-count');
-                if (el) el.textContent = 'Counter failed to load';
-            }
-
-            updateVisitorCount();
-        });
+        // Visitor counter simulation
+        let visitorCount = Math.floor(Math.random() * 1000) + 500;
+        document.getElementById('visitor-count').textContent = visitorCount;
+        
+        // Increment counter every 30 seconds to simulate new visitors
+        setInterval(() => {
+            visitorCount++;
+            document.getElementById('visitor-count').textContent = visitorCount;
+        }, 30000);
     </script>
-    <script src="style.css"></script>
-    <script src="random-bg.js"></script>
-    <script src="script.js"></script>
 </body>
-
 </html>
