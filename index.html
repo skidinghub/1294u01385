@@ -218,17 +218,25 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        /* Enhanced Profile Header */
         .profile-header {
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(40, 40, 40, 0.8) 100%);
+            background: 
+                linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.85) 100%),
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.05) 0%, transparent 50%);
             display: flex;
             align-items: flex-start;
-            gap: 15px;
-            height: 160px;
+            gap: 20px;
+            height: 180px;
             border-radius: 12px;
             overflow: hidden;
-            padding: 15px;
+            padding: 20px;
             position: relative;
             transform-style: preserve-3d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.5),
+                0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .profile-header::before {
@@ -238,15 +246,45 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: linear-gradient(90deg, transparent, #fff, transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         }
 
         .profile-container {
             position: relative;
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             transform-style: preserve-3d;
             transition: transform 0.5s ease;
+            z-index: 2;
+        }
+
+        .profile-container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff00cc, #3333ff, #00ccff, #ffcc00);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-container:hover::before {
+            opacity: 0.7;
         }
 
         .profile-container:hover {
@@ -254,17 +292,19 @@
         }
 
         .profile-picture {
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #000;
+            border: 3px solid rgba(255, 255, 255, 0.1);
             transform: translateZ(20px);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
         .profile-picture:hover {
             transform: translateZ(30px) scale(1.05);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .profile-info {
@@ -273,13 +313,15 @@
             flex-direction: column;
             justify-content: center;
             transform-style: preserve-3d;
+            position: relative;
+            z-index: 2;
         }
 
         .name-and-badges {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             transform-style: preserve-3d;
         }
 
@@ -293,6 +335,16 @@
             cursor: pointer;
             transform: translateZ(10px);
             transition: transform 0.3s ease;
+            background: linear-gradient(90deg, #fff, #aaa, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         #profile-name:hover {
@@ -398,10 +450,11 @@
         }
 
         .badge {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             transition: transform 0.3s ease;
             transform-style: preserve-3d;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
         }
 
         .badge:hover {
@@ -414,6 +467,10 @@
             line-height: 1.5;
             min-height: 48px;
             transform: translateZ(5px);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .bio-separator {
@@ -463,6 +520,7 @@
             align-self: flex-start;
             transform: translateZ(10px);
             transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .visitor-counter:hover {
@@ -649,7 +707,7 @@
         <div id="profile-block">
             <div class="profile-header">
                 <div class="profile-container">
-                    <img src="" alt="Profile" class="profile-picture" id="profile-pic">
+                    <img src="https://cdn.discordapp.com/avatars/1430655091584667660/6e4f8b3c7b5c5e5e5e5e5e5e5e5e5e5e.png" alt="Profile" class="profile-picture" id="profile-pic">
                 </div>
                 <div class="profile-info">
                     <div class="name-and-badges">
@@ -954,7 +1012,7 @@
                     .then(data => {
                         const bannerUrl = data.banner?.link;
                         if (bannerUrl) {
-                            document.querySelector('.profile-header').style.backgroundImage = `url('${bannerUrl}')`;
+                            document.querySelector('.profile-header').style.backgroundImage = `url('${bannerUrl}'), linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.85) 100%)`;
                         }
                     });
             })
