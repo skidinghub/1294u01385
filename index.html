@@ -253,19 +253,6 @@
             transform: rotateY(15deg) scale(1.05) translateZ(10px);
         }
 
-        .profile-container::after {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #ff0080, #00ff80, #0080ff, #8000ff);
-            z-index: -1;
-            animation: rotate 3s linear infinite;
-        }
-
         .profile-picture {
             width: 150px;
             height: 150px;
@@ -347,6 +334,16 @@
             white-space: normal;
             word-wrap: break-word;
             border-right: 2px solid #fff;
+        }
+
+        /* Grow effect for all text */
+        .grow-text {
+            transition: all 0.3s ease;
+        }
+
+        .grow-text:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         /* Tooltip styling */
@@ -477,33 +474,6 @@
             height: 18px;
         }
 
-        /* URL Display */
-        .url-display {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateZ(10px);
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 8px 15px;
-            z-index: 25;
-            backdrop-filter: blur(5px);
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-            transform-style: preserve-3d;
-            transition: transform 0.3s ease;
-        }
-
-        .url-display:hover {
-            transform: translateX(-50%) translateZ(20px) scale(1.02);
-        }
-
-        .url-display .typewriter {
-            font-size: 14px;
-        }
-
         /* 3D Floating elements */
         .floating-element {
             position: absolute;
@@ -541,20 +511,6 @@
         }
 
         /* Animations */
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0) translateZ(0); }
             50% { transform: translateY(-20px) translateZ(10px); }
@@ -650,12 +606,6 @@
                 transform: translateX(-50%) translateZ(20px);
                 width: 90%;
             }
-
-            .url-display {
-                bottom: 10px;
-                width: 90%;
-                text-align: center;
-            }
         }
     </style>
 </head>
@@ -704,7 +654,7 @@
                 <div class="profile-info">
                     <div class="name-and-badges">
                         <div class="tooltip">
-                            <div id="profile-name" class="username-effect typewriter">* myzgar</div>
+                            <div id="profile-name" class="username-effect typewriter grow-text">* myzgar</div>
                             <span class="tooltiptext">uid: 0</span>
                         </div>
                         <div class="badge-group">
@@ -714,7 +664,7 @@
                             <img src="assets/nitro.png" alt="Nitro" class="badge">
                         </div>
                     </div>
-                    <div id="profile-bio" class="typewriter-bio"></div>
+                    <div id="profile-bio" class="typewriter-bio grow-text"></div>
                 </div>
             </div>
 
@@ -745,7 +695,7 @@
                     </a>
                 </div>
 
-                <div class="visitor-counter">
+                <div class="visitor-counter grow-text">
                     <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -756,11 +706,6 @@
                     <span id="visitor-count">0</span>
                 </div>
             </div>
-        </div>
-
-        <!-- URL Display -->
-        <div class="url-display">
-            <span class="typewriter" id="url-text">/@username</span>
         </div>
     </div>
 
@@ -818,17 +763,11 @@
         // Initialize typewriter effects
         window.addEventListener('load', function() {
             const usernameElement = document.getElementById('profile-name');
-            const urlElement = document.getElementById('url-text');
             
             // Start with username
             typeWriter(usernameElement, '* myzgar', 150, function() {
                 // Then start bio
                 changeBio();
-                
-                // Then start URL
-                setTimeout(() => {
-                    typeWriter(urlElement, '/@myzgar', 100);
-                }, 1000);
             });
         });
 
@@ -968,15 +907,12 @@
                 
                 // Set username with typewriter effect
                 const usernameElement = document.getElementById('profile-name');
-                const urlElement = document.getElementById('url-text');
                 
                 // Clear existing content
                 usernameElement.innerHTML = '';
-                urlElement.innerHTML = '';
                 
                 // Remove typewriter animations
                 usernameElement.classList.remove('typewriter');
-                urlElement.classList.remove('typewriter');
                 
                 // Set new content with typewriter effect
                 setTimeout(() => {
@@ -984,27 +920,22 @@
                         // Change bio
                         changeBio();
                         
-                        // Change URL
-                        setTimeout(() => {
-                            typeWriter(urlElement, '/@' + user.username, 100);
-                            
-                            // Change URL pathname to Discord username
-                            window.history.pushState({}, '', '/@' + user.username);
-                            
-                            // Change page title with typewriter effect
-                            document.title = '';
-                            let titleText = user.username + ' - Dox';
-                            let titleIndex = 0;
-                            
-                            function typeTitle() {
-                                if (titleIndex < titleText.length) {
-                                    document.title += titleText.charAt(titleIndex);
-                                    titleIndex++;
-                                    setTimeout(typeTitle, 100);
-                                }
+                        // Change URL pathname to Discord username
+                        window.history.pushState({}, '', '/@' + user.username);
+                        
+                        // Change page title with typewriter effect
+                        document.title = '';
+                        let titleText = user.username + ' - Dox';
+                        let titleIndex = 0;
+                        
+                        function typeTitle() {
+                            if (titleIndex < titleText.length) {
+                                document.title += titleText.charAt(titleIndex);
+                                titleIndex++;
+                                setTimeout(typeTitle, 100);
                             }
-                            typeTitle();
-                        }, 1000);
+                        }
+                        typeTitle();
                     });
                 }, 100);
                 
@@ -1024,40 +955,32 @@
             .catch(err => {
                 console.error('Error fetching Discord data:', err);
                 const usernameElement = document.getElementById('profile-name');
-                const urlElement = document.getElementById('url-text');
                 
                 usernameElement.innerHTML = '';
-                urlElement.innerHTML = '';
                 
                 usernameElement.classList.remove('typewriter');
-                urlElement.classList.remove('typewriter');
                 
                 setTimeout(() => {
                     typeWriter(usernameElement, '* YKT', 150, function() {
                         // Change bio
                         changeBio();
                         
-                        // Change URL
-                        setTimeout(() => {
-                            typeWriter(urlElement, '/@YKT', 100);
-                            
-                            // Change URL pathname to Discord username
-                            window.history.pushState({}, '', '/@YKT');
-                            
-                            // Change page title with typewriter effect
-                            document.title = '';
-                            let titleText = 'YKT - Dox';
-                            let titleIndex = 0;
-                            
-                            function typeTitle() {
-                                if (titleIndex < titleText.length) {
-                                    document.title += titleText.charAt(titleIndex);
-                                    titleIndex++;
-                                    setTimeout(typeTitle, 100);
-                                }
+                        // Change URL pathname to Discord username
+                        window.history.pushState({}, '', '/@YKT');
+                        
+                        // Change page title with typewriter effect
+                        document.title = '';
+                        let titleText = 'YKT - Dox';
+                        let titleIndex = 0;
+                        
+                        function typeTitle() {
+                            if (titleIndex < titleText.length) {
+                                document.title += titleText.charAt(titleIndex);
+                                titleIndex++;
+                                setTimeout(typeTitle, 100);
                             }
-                            typeTitle();
-                        }, 1000);
+                        }
+                        typeTitle();
                     });
                 }, 100);
                 
