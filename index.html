@@ -32,6 +32,41 @@
             transform-style: preserve-3d;
         }
 
+        /* Loading Overlay */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+
+        #loading-text {
+            font-size: 48px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            animation: pulse 2s infinite;
+            letter-spacing: 3px;
+        }
+
+        #click-instruction {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeInOut 3s infinite;
+        }
+
         /* Custom cursor styles */
         .cursor {
             position: fixed;
@@ -67,8 +102,8 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Background with subtle animation */
-        #background {
+        /* Background video */
+        #background-video {
             position: fixed;
             top: 0;
             left: 0;
@@ -96,6 +131,55 @@
             pointer-events: none;
             z-index: 2;
             opacity: 0.3;
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 25;
+            backdrop-filter: blur(5px);
+            transform-style: preserve-3d;
+            transform: translateZ(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: translateZ(20px) scale(1.02);
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateZ(5px);
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateZ(10px) scale(1.05);
+        }
+
+        .song-info {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+            text-align: center;
         }
 
         /* Profile block styling with 3D effects */
@@ -453,6 +537,16 @@
             50% { transform: translateY(-20px) translateZ(10px); }
         }
 
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
         .glitch {
             animation: glitch 0.2s ease-in-out;
         }
@@ -521,11 +615,23 @@
             .url-scrambler input {
                 width: calc(100% - 70px);
             }
+
+            .music-player {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div id="loading-text">CLICK TO ENTER</div>
+        <div id="click-instruction">Click anywhere to continue</div>
+    </div>
+
     <!-- Custom cursor elements -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
@@ -537,9 +643,22 @@
     <div class="floating-element"></div>
 
     <div class="container">
-        <!-- Background -->
-        <div id="background"></div>
+        <!-- Background Video -->
+        <video id="background-video" loop muted autoplay>
+            <source src="https://cdn.pixabay.com/video/2023/02/21/159690-804111549_large.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <div class="noise-overlay"></div>
+
+        <!-- Music Player -->
+        <div class="music-player">
+            <div class="music-controls">
+                <button id="play-btn" class="music-btn">▶ Play</button>
+                <button id="pause-btn" class="music-btn">⏸ Pause</button>
+                <button id="next-btn" class="music-btn">⏭ Next</button>
+            </div>
+            <div class="song-info" id="current-song">No song playing</div>
+        </div>
 
         <!-- Profile Block -->
         <div id="profile-block">
@@ -611,7 +730,25 @@
         </div>
     </div>
 
+    <!-- Audio Element -->
+    <audio id="backgroundsong"></audio>
+
     <script>
+        // Loading overlay functionality
+        const loadingOverlay = document.getElementById('loading-overlay');
+        
+        function hideLoadingOverlay() {
+            loadingOverlay.style.opacity = '0';
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+            }, 500);
+        }
+        
+        document.addEventListener('click', function removeListener() {
+            hideLoadingOverlay();
+            document.removeEventListener('click', removeListener);
+        });
+
         // Custom cursor implementation
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
@@ -675,6 +812,63 @@
                 0 0 0 1px rgba(255, 255, 255, 0.05)
             `;
         });
+
+        // Music Player functionality
+        const playlist = [
+            { url: 'https://qu.ax/nqWbN.mp3', name: 'back to my day job - skel' },
+            { url: 'https://qu.ax/EEqOs.mp3', name: 'fuck u i hate evryone - witchbox n skel' },
+            { url: 'https://qu.ax/bdqBn.mp3', name: 'loser club - skel aster' }
+        ];
+
+        const audio = document.getElementById('backgroundsong');
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSong = document.getElementById('current-song');
+        let index = 0;
+        let isPlaying = false;
+
+        function loadAndPlay() {
+            audio.src = playlist[index].url;
+            currentSong.textContent = playlist[index].name;
+            audio.play().catch(e => {
+                console.error('Playback blocked:', e);
+            });
+            isPlaying = true;
+        }
+
+        function playNext() {
+            index = (index + 1) % playlist.length;
+            loadAndPlay();
+        }
+
+        audio.addEventListener('ended', () => {
+            playNext();
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                loadAndPlay();
+            } else {
+                audio.play();
+            }
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            audio.pause();
+            isPlaying = false;
+        });
+
+        nextBtn.addEventListener('click', () => {
+            playNext();
+        });
+
+        // Start play on click anywhere on the page (after loading overlay)
+        document.addEventListener('click', function startMusic() {
+            if (!isPlaying) {
+                loadAndPlay();
+            }
+        }, { once: true });
 
         // URL Scrambler
         document.getElementById('scramble-btn').addEventListener('click', () => {
