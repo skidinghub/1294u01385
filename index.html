@@ -19,6 +19,7 @@
             overflow-x: hidden;
             min-height: 100vh;
             background: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #000 70%);
+            perspective: 1000px;
         }
 
         .container {
@@ -28,6 +29,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transform-style: preserve-3d;
         }
 
         /* Custom cursor styles */
@@ -96,12 +98,12 @@
             opacity: 0.3;
         }
 
-        /* Profile block styling */
+        /* Profile block styling with 3D effects */
         #profile-block {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
             width: 820px;
             min-height: 332px;
             background: rgba(10, 10, 10, 0.85);
@@ -113,7 +115,12 @@
             flex-direction: column;
             gap: 15px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+            box-shadow: 
+                0 0 30px rgba(0, 0, 0, 0.7),
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .profile-header {
@@ -126,6 +133,7 @@
             overflow: hidden;
             padding: 15px;
             position: relative;
+            transform-style: preserve-3d;
         }
 
         .profile-header::before {
@@ -142,6 +150,12 @@
             position: relative;
             width: 150px;
             height: 150px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .profile-container:hover {
+            transform: rotateY(15deg) scale(1.05);
         }
 
         .profile-container::after {
@@ -163,6 +177,12 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #000;
+            transform: translateZ(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-picture:hover {
+            transform: translateZ(30px) scale(1.05);
         }
 
         .profile-info {
@@ -170,6 +190,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            transform-style: preserve-3d;
         }
 
         .name-and-badges {
@@ -177,6 +198,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            transform-style: preserve-3d;
         }
 
         #profile-name {
@@ -187,12 +209,19 @@
             letter-spacing: 2px;
             position: relative;
             cursor: pointer;
+            transform: translateZ(10px);
+            transition: transform 0.3s ease;
+        }
+
+        #profile-name:hover {
+            transform: translateZ(20px) scale(1.05);
         }
 
         /* Tooltip styling */
         .tooltip {
             position: relative;
             display: inline-block;
+            transform-style: preserve-3d;
         }
 
         .tooltip .tooltiptext {
@@ -214,6 +243,7 @@
             font-size: 12px;
             font-family: 'Courier New', monospace;
             backdrop-filter: blur(5px);
+            transform: translateZ(30px);
         }
 
         .tooltip .tooltiptext::after {
@@ -235,22 +265,25 @@
         .badge-group {
             display: flex;
             gap: 8px;
+            transform-style: preserve-3d;
         }
 
         .badge {
             width: 24px;
             height: 24px;
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
         }
 
         .badge:hover {
-            transform: scale(1.2);
+            transform: rotateY(180deg) translateZ(10px) scale(1.2);
         }
 
         #profile-bio {
             color: rgba(255, 255, 255, 0.8);
             font-size: 16px;
             line-height: 1.5;
+            transform: translateZ(5px);
         }
 
         .bio-separator {
@@ -258,18 +291,21 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             margin: 10px 0;
+            transform: translateZ(5px);
         }
 
         .profile-footer {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            transform-style: preserve-3d;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
             gap: 15px;
+            transform-style: preserve-3d;
         }
 
         .social-icon {
@@ -277,10 +313,12 @@
             height: 36px;
             transition: all 0.3s ease;
             filter: brightness(0.8);
+            transform-style: preserve-3d;
+            transform: translateZ(5px);
         }
 
         .social-icon:hover {
-            transform: scale(1.2);
+            transform: translateZ(15px) scale(1.2) rotateY(15deg);
             filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
         }
 
@@ -293,6 +331,12 @@
             border-radius: 20px;
             font-size: 14px;
             align-self: flex-start;
+            transform: translateZ(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .visitor-counter:hover {
+            transform: translateZ(20px) scale(1.05);
         }
 
         .visitor-icon {
@@ -300,7 +344,7 @@
             height: 18px;
         }
 
-        /* URL Scrambler */
+        /* URL Scrambler with 3D effect */
         .url-scrambler {
             position: fixed;
             bottom: 20px;
@@ -311,6 +355,13 @@
             padding: 10px;
             z-index: 25;
             backdrop-filter: blur(5px);
+            transform-style: preserve-3d;
+            transform: translateZ(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .url-scrambler:hover {
+            transform: translateZ(20px) scale(1.02);
         }
 
         .url-scrambler input {
@@ -321,6 +372,14 @@
             padding: 5px 10px;
             width: 200px;
             margin-right: 5px;
+            transform: translateZ(5px);
+            transition: transform 0.3s ease;
+        }
+
+        .url-scrambler input:focus {
+            transform: translateZ(10px);
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .url-scrambler button {
@@ -330,11 +389,48 @@
             color: white;
             padding: 5px 10px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            transform: translateZ(5px);
         }
 
         .url-scrambler button:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: translateZ(10px) scale(1.05);
+        }
+
+        /* 3D Floating elements */
+        .floating-element {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(4) {
+            bottom: 15%;
+            right: 25%;
+            animation-delay: 3s;
         }
 
         /* Animations */
@@ -350,6 +446,11 @@
             60% { transform: translate(2px, 2px); }
             80% { transform: translate(2px, -2px); }
             100% { transform: translate(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateZ(0); }
+            50% { transform: translateY(-20px) translateZ(10px); }
         }
 
         .glitch {
@@ -428,6 +529,12 @@
     <!-- Custom cursor elements -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
+
+    <!-- Floating 3D elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
 
     <div class="container">
         <!-- Background -->
@@ -548,6 +655,25 @@
                 cursorFollower.style.transform = 'scale(1)';
                 cursor.style.background = 'rgba(255, 255, 255, 0.8)';
             });
+        });
+
+        // 3D Effect for profile block
+        const profileBlock = document.getElementById('profile-block');
+        
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            
+            profileBlock.style.transform = `translate(-50%, -50%) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            
+            // Update shadow based on rotation
+            const shadowX = xAxis * 2;
+            const shadowY = yAxis * 2;
+            profileBlock.style.boxShadow = `
+                ${shadowX}px ${shadowY}px 30px rgba(0, 0, 0, 0.7),
+                ${shadowX * 2}px ${shadowY * 2}px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05)
+            `;
         });
 
         // URL Scrambler
