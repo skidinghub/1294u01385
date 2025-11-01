@@ -326,11 +326,11 @@
         }
 
         #profile-name {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
             color: #fff;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             position: relative;
             cursor: pointer;
             transform: translateZ(10px);
@@ -827,12 +827,35 @@
             });
         }
 
+        // Title typewriter effect with looping
+        let currentTitleIndex = 0;
+        const titles = [
+            '* a dfinncgk.0.0.5918',
+            '* music lover',
+            '* digital creator',
+            '* coding enthusiast'
+        ];
+
+        function changeTitle() {
+            const titleElement = document.getElementById('profile-name');
+            
+            typeWriter(titleElement, titles[currentTitleIndex], 100, function() {
+                // Wait 2 seconds then change to next title
+                setTimeout(() => {
+                    currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+                    titleElement.innerHTML = '';
+                    changeTitle(); // Loop back
+                }, 2000);
+            });
+        }
+
         // Initialize typewriter effects
         window.addEventListener('load', function() {
-            const usernameElement = document.getElementById('profile-name');
+            // Start title loop
+            changeTitle();
             
-            // Start with username
-            typeWriter(usernameElement, 'Loading...', 150);
+            // Start bio loop
+            changeBio();
         });
 
         // Custom cursor implementation
@@ -956,100 +979,2028 @@
             }
         }, { once: true });
 
-        // Fetch Discord user data
-        const userId = '1430655091584667660';
+        // Generate random pathname
+        function generateRandomPath() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '/';
+            for (let i = 0; i < 10; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // Set random pathname
+        window.history.pushState({}, '', generateRandomPath());
+
+        // Visitor counter simulation
+        let visitorCount = Math.floor(Math.random() * 1000) + 500;
+        document.getElementById('visitor-count').textContent = visitorCount;
         
-        fetch(`https://api.lanyard.rest/v1/users/${userId}`)
-            .then(res => res.json())
-            .then(data => {
-                const user = data.data.discord_user;
-                
-                // Set avatar
-                const avatarFormat = user.avatar.startsWith('a_') ? 'gif' : 'png';
-                const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${avatarFormat}`;
-                document.getElementById('profile-pic').src = avatarUrl;
-                
-                // Set username with typewriter effect
-                const usernameElement = document.getElementById('profile-name');
-                
-                // Clear existing content
-                usernameElement.innerHTML = '';
-                
-                // Remove typewriter animations
-                usernameElement.classList.remove('typewriter');
-                
-                // Set new content with typewriter effect
+        // Increment counter every 30 seconds to simulate new visitors
+        setInterval(() => {
+            visitorCount++;
+            document.getElementById('visitor-count').textContent = visitorCount;
+        }, 30000);
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Profile</title>
+    <meta name="theme-color" content="#000001">
+    <link rel="icon" href="https://qu.ax/wOPfl.png" type="image/x-icon">
+    <link rel="shortcut icon" href="https://qu.ax/wOPfl.png" type="image/x-icon"> 
+    <meta content="Profile" property="og:title" />
+    <meta content="http://kys.lol/" property="og:url" />
+    <meta content="https://i.imgur.com/y6XhCX6.jpeg" property="og:image" />
+    <meta content="#000001" data-react-helmet="true" name="theme-color" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            cursor: none;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #000 70%);
+            perspective: 1000px;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+
+        /* Loading Overlay */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+
+        #loading-text {
+            font-size: 48px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            animation: pulse 2s infinite;
+            letter-spacing: 3px;
+        }
+
+        #click-instruction {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeInOut 3s infinite;
+        }
+
+        /* Custom cursor styles */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.15s ease;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+            z-index: 9997;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Background video */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.7;
+            transform: translateZ(-100px) scale(1.2);
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.3;
+            transform: translateZ(-50px);
+        }
+
+        /* Music Player - Moved to bottom */
+        .music-player {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateZ(20px);
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 25;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .music-player:hover {
+            transform: translateX(-50%) translateZ(30px) scale(1.02);
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateZ(10px);
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateZ(15px) scale(1.05);
+        }
+
+        .song-info {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+            text-align: center;
+            transform: translateZ(5px);
+        }
+
+        /* Profile block styling with 3D effects */
+        #profile-block {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+            width: 820px;
+            min-height: 332px;
+            background: rgba(10, 10, 10, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 30px rgba(0, 0, 0, 0.7),
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Enhanced Profile Header */
+        .profile-header {
+            background: 
+                linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.85) 100%),
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.05) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 20px;
+            position: relative;
+            transform-style: preserve-3d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.5),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .profile-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            z-index: 2;
+        }
+
+        .profile-container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff00cc, #3333ff, #00ccff, #ffcc00);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-container:hover::before {
+            opacity: 0.7;
+        }
+
+        .profile-container:hover {
+            transform: rotateY(15deg) scale(1.05) translateZ(10px);
+        }
+
+        .profile-picture {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            transform: translateZ(20px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-picture:hover {
+            transform: translateZ(30px) scale(1.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transform-style: preserve-3d;
+            position: relative;
+            z-index: 2;
+        }
+
+        .name-and-badges {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            transform-style: preserve-3d;
+        }
+
+        #profile-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            position: relative;
+            cursor: pointer;
+            transform: translateZ(10px);
+            transition: transform 0.3s ease;
+            background: linear-gradient(90deg, #fff, #aaa, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        #profile-name:hover {
+            transform: translateZ(20px) scale(1.05);
+        }
+
+        /* Username effect */
+        .username-effect {
+            position: relative;
+            display: inline-block;
+        }
+
+        .username-effect::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .username-effect:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #fff;
+            white-space: nowrap;
+            margin: 0 auto;
+        }
+
+        .typewriter-bio {
+            overflow: hidden;
+            white-space: normal;
+            word-wrap: break-word;
+            border-right: 2px solid #fff;
+        }
+
+        /* Grow effect for all text */
+        .grow-text {
+            transition: all 0.3s ease;
+        }
+
+        .grow-text:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Tooltip styling */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            transform-style: preserve-3d;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            backdrop-filter: blur(5px);
+            transform: translateZ(30px);
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 8px;
+            transform-style: preserve-3d;
+        }
+
+        .badge {
+            width: 28px;
+            height: 28px;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+        }
+
+        .badge:hover {
+            transform: rotateY(180deg) translateZ(10px) scale(1.2);
+        }
+
+        #profile-bio {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            line-height: 1.5;
+            min-height: 48px;
+            transform: translateZ(5px);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .bio-separator {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            margin: 10px 0;
+            transform: translateZ(5px);
+        }
+
+        .profile-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transform-style: preserve-3d;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            transform-style: preserve-3d;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            transition: all 0.3s ease;
+            filter: brightness(0.8);
+            transform-style: preserve-3d;
+            transform: translateZ(5px);
+        }
+
+        .social-icon:hover {
+            transform: translateZ(15px) scale(1.2) rotateY(15deg);
+            filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+        }
+
+        .visitor-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            align-self: flex-start;
+            transform: translateZ(10px);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .visitor-counter:hover {
+            transform: translateZ(20px) scale(1.05);
+        }
+
+        .visitor-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* 3D Floating elements */
+        .floating-element {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            z-index: 5;
+            transform-style: preserve-3d;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(4) {
+            bottom: 15%;
+            right: 25%;
+            animation-delay: 3s;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateZ(0); }
+            50% { transform: translateY(-20px) translateZ(10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes typing-bio {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #fff; }
+        }
+
+        .glitch {
+            animation: glitch 0.2s ease-in-out;
+        }
+
+        /* Responsive design */
+        @media (max-width: 430px) {
+            #profile-block {
+                width: 90vw;
+                max-width: 350px;
+                min-height: 280px;
+                padding: 15px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                height: auto;
+            }
+
+            .profile-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-info {
+                align-items: center;
+                text-align: center;
+            }
+
+            .name-and-badges {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+
+            #profile-name {
+                font-size: 24px;
+            }
+
+            .badge {
+                width: 20px;
+                height: 20px;
+            }
+
+            #profile-bio {
+                font-size: 14px;
+            }
+
+            .social-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .music-player {
+                bottom: 60px;
+                left: 50%;
+                transform: translateX(-50%) translateZ(20px);
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div id="loading-text">CLICK TO ENTER</div>
+        <div id="click-instruction">Click anywhere to continue</div>
+    </div>
+
+    <!-- Custom cursor elements -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Floating 3D elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <div class="container">
+        <!-- Background Video -->
+        <video id="background-video" loop muted autoplay>
+            <source src="https://files.catbox.moe/vnfhyw.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="noise-overlay"></div>
+
+        <!-- Music Player - Moved to bottom -->
+        <div class="music-player">
+            <div class="music-controls">
+                <button id="play-btn" class="music-btn">▶ Play</button>
+                <button id="pause-btn" class="music-btn">⏸ Pause</button>
+                <button id="next-btn" class="music-btn">⏭ Next</button>
+            </div>
+            <div class="song-info" id="current-song">No song playing</div>
+        </div>
+
+        <!-- Profile Block -->
+        <div id="profile-block">
+            <div class="profile-header">
+                <div class="profile-container">
+                    <img src="https://cdn.discordapp.com/avatars/1430655091584667660/6e4f8b3c7b5c5e5e5e5e5e5e5e5e5e5e.png" alt="Profile" class="profile-picture" id="profile-pic">
+                </div>
+                <div class="profile-info">
+                    <div class="name-and-badges">
+                        <div class="tooltip">
+                            <div id="profile-name" class="username-effect typewriter grow-text">Loading...</div>
+                            <span class="tooltiptext">uid: 0</span>
+                        </div>
+                        <div class="badge-group">
+                            <img src="assets/staff.png" alt="Staff" class="badge">
+                            <img src="assets/active_developer.png" alt="Active Developer" class="badge">
+                            <img src="assets/quests.png" alt="Quests" class="badge">
+                            <img src="assets/nitro.png" alt="Nitro" class="badge">
+                        </div>
+                    </div>
+                    <div id="profile-bio" class="typewriter-bio grow-text"></div>
+                </div>
+            </div>
+
+            <div class="bio-separator"></div>
+
+            <div class="profile-footer">
+                <div class="social-links">
+                    <a href="https://discord.gg/temeria" target="_blank">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                    <a href="https://open.spotify.com/user/31jp45akuf57akeioraa7bw5voz4?si=49c2170dbc6f49ae" target="_blank">
+                        <img src="assets/spotify.png" alt="Spotify" class="social-icon">
+                    </a>
+                    <a href="https://discord.gg/athen" target="_blank">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                    <a href="https://shadowfansub.com.tr/" target="_blank">
+                        <img src="assets/world.png" alt="Website" class="social-icon">
+                    </a>
+                    <a href="https://discord.gg/marino" target="_blank">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                    <a href="" target="_blank">
+                        <img src="assets/github.png" alt="GitHub" class="social-icon">
+                    </a>
+                    <a href="https://discord.gg/susku" target="_blank">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                </div>
+
+                <div class="visitor-counter grow-text">
+                    <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                        </path>
+                    </svg>
+                    <span id="visitor-count">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="backgroundsong"></audio>
+
+    <script>
+        // Loading overlay functionality
+        const loadingOverlay = document.getElementById('loading-overlay');
+        
+        function hideLoadingOverlay() {
+            loadingOverlay.style.opacity = '0';
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+            }, 500);
+        }
+        
+        document.addEventListener('click', function removeListener() {
+            hideLoadingOverlay();
+            document.removeEventListener('click', removeListener);
+        });
+
+        // Typewriter effect for multiple elements
+        function typeWriter(element, text, speed = 100, callback = null) {
+            let i = 0;
+            element.innerHTML = '';
+            element.style.animation = `typing ${text.length * speed / 100}s steps(${text.length}, end), blink-caret 0.75s step-end infinite`;
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        // Bio changer function with looping
+        let currentBioIndex = 0;
+        const bios = [
+            'better than nirvana',
+            'long live skel',
+            'coding enthusiast',
+            'music lover',
+            'digital creator'
+        ];
+
+        function changeBio() {
+            const bioElement = document.getElementById('profile-bio');
+            
+            typeWriter(bioElement, bios[currentBioIndex], 100, function() {
+                // Wait 3 seconds then change to next bio
                 setTimeout(() => {
-                    typeWriter(usernameElement, '* ' + user.username, 150, function() {
-                        // Start bio loop
-                        changeBio();
-                        
-                        // Change URL pathname to Discord username
-                        window.history.pushState({}, '', '/@' + user.username);
-                        
-                        // Change page title with typewriter effect
-                        document.title = '';
-                        let titleText = user.username;
-                        let titleIndex = 0;
-                        
-                        function typeTitle() {
-                            if (titleIndex < titleText.length) {
-                                document.title += titleText.charAt(titleIndex);
-                                titleIndex++;
-                                setTimeout(typeTitle, 100);
-                            }
-                        }
-                        typeTitle();
-                    });
-                }, 100);
-                
-                // Set tooltip with user ID
-                document.querySelector('.tooltip .tooltiptext').textContent = 'uid: ' + user.id;
-                
-                // Try to get banner
-                fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        const bannerUrl = data.banner?.link;
-                        if (bannerUrl) {
-                            document.querySelector('.profile-header').style.backgroundImage = `url('${bannerUrl}'), linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.85) 100%)`;
-                        }
-                    });
-            })
-            .catch(err => {
-                console.error('Error fetching Discord data:', err);
-                const usernameElement = document.getElementById('profile-name');
-                
-                usernameElement.innerHTML = '';
-                
-                usernameElement.classList.remove('typewriter');
-                
-                setTimeout(() => {
-                    typeWriter(usernameElement, '* User', 150, function() {
-                        // Start bio loop
-                        changeBio();
-                        
-                        // Change URL pathname to Discord username
-                        window.history.pushState({}, '', '/@User');
-                        
-                        // Change page title with typewriter effect
-                        document.title = '';
-                        let titleText = 'User';
-                        let titleIndex = 0;
-                        
-                        function typeTitle() {
-                            if (titleIndex < titleText.length) {
-                                document.title += titleText.charAt(titleIndex);
-                                titleIndex++;
-                                setTimeout(typeTitle, 100);
-                            }
-                        }
-                        typeTitle();
-                    });
-                }, 100);
-                
-                document.querySelector('.tooltip .tooltiptext').textContent = 'uid: 0';
+                    currentBioIndex = (currentBioIndex + 1) % bios.length;
+                    bioElement.innerHTML = '';
+                    changeBio(); // Loop back
+                }, 3000);
             });
+        }
+
+        // Title typewriter effect with looping
+        let currentTitleIndex = 0;
+        const titles = [
+            '* a dfinncgk.0.0.5918',
+            '* music lover',
+            '* digital creator',
+            '* coding enthusiast'
+        ];
+
+        function changeTitle() {
+            const titleElement = document.getElementById('profile-name');
+            
+            typeWriter(titleElement, titles[currentTitleIndex], 100, function() {
+                // Wait 2 seconds then change to next title
+                setTimeout(() => {
+                    currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+                    titleElement.innerHTML = '';
+                    changeTitle(); // Loop back
+                }, 2000);
+            });
+        }
+
+        // Initialize typewriter effects
+        window.addEventListener('load', function() {
+            // Start title loop
+            changeTitle();
+            
+            // Start bio loop
+            changeBio();
+        });
+
+        // Custom cursor implementation
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }, 100);
+            
+            // Create cursor trail
+            const trail = document.createElement('div');
+            trail.classList.add('cursor-trail');
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            document.body.appendChild(trail);
+            
+            setTimeout(() => {
+                trail.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(trail);
+                }, 300);
+            }, 100);
+        });
+        
+        // Interactive elements cursor effect
+        const interactiveElements = document.querySelectorAll('a, button, .profile-picture, .badge, .social-icon, .tooltip');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(1.8)';
+                cursor.style.background = 'rgba(255, 50, 50, 0.8)';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+                cursor.style.background = 'rgba(255, 255, 255, 0.8)';
+            });
+        });
+
+        // 3D Effect for profile block
+        const profileBlock = document.getElementById('profile-block');
+        
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            
+            profileBlock.style.transform = `translate(-50%, -50%) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            
+            // Update shadow based on rotation
+            const shadowX = xAxis * 2;
+            const shadowY = yAxis * 2;
+            profileBlock.style.boxShadow = `
+                ${shadowX}px ${shadowY}px 30px rgba(0, 0, 0, 0.7),
+                ${shadowX * 2}px ${shadowY * 2}px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05)
+            `;
+        });
+
+        // Music Player functionality
+        const playlist = [
+            { url: 'https://qu.ax/nqWbN.mp3', name: 'back to my day job - skel' },
+            { url: 'https://qu.ax/EEqOs.mp3', name: 'fuck u i hate evryone - witchbox n skel' },
+            { url: 'https://qu.ax/bdqBn.mp3', name: 'loser club - skel aster' }
+        ];
+
+        const audio = document.getElementById('backgroundsong');
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSong = document.getElementById('current-song');
+        let index = 0;
+        let isPlaying = false;
+
+        function loadAndPlay() {
+            audio.src = playlist[index].url;
+            currentSong.textContent = playlist[index].name;
+            audio.play().catch(e => {
+                console.error('Playback blocked:', e);
+            });
+            isPlaying = true;
+        }
+
+        function playNext() {
+            index = (index + 1) % playlist.length;
+            loadAndPlay();
+        }
+
+        audio.addEventListener('ended', () => {
+            playNext();
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                loadAndPlay();
+            } else {
+                audio.play();
+            }
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            audio.pause();
+            isPlaying = false;
+        });
+
+        nextBtn.addEventListener('click', () => {
+            playNext();
+        });
+
+        // Start play on click anywhere on the page (after loading overlay)
+        document.addEventListener('click', function startMusic() {
+            if (!isPlaying) {
+                loadAndPlay();
+            }
+        }, { once: true });
+
+        // Generate random pathname
+        function generateRandomPath() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '/';
+            for (let i = 0; i < 10; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // Set random pathname
+        window.history.pushState({}, '', generateRandomPath());
+
+        // Visitor counter simulation
+        let visitorCount = Math.floor(Math.random() * 1000) + 500;
+        document.getElementById('visitor-count').textContent = visitorCount;
+        
+        // Increment counter every 30 seconds to simulate new visitors
+        setInterval(() => {
+            visitorCount++;
+            document.getElementById('visitor-count').textContent = visitorCount;
+        }, 30000);
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Profile</title>
+    <meta name="theme-color" content="#000001">
+    <link rel="icon" href="https://qu.ax/wOPfl.png" type="image/x-icon">
+    <link rel="shortcut icon" href="https://qu.ax/wOPfl.png" type="image/x-icon"> 
+    <meta content="Profile" property="og:title" />
+    <meta content="http://kys.lol/" property="og:url" />
+    <meta content="https://i.imgur.com/y6XhCX6.jpeg" property="og:image" />
+    <meta content="#000001" data-react-helmet="true" name="theme-color" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            cursor: none;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #000 70%);
+            perspective: 1000px;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+
+        /* Loading Overlay */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+
+        #loading-text {
+            font-size: 48px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            animation: pulse 2s infinite;
+            letter-spacing: 3px;
+        }
+
+        #click-instruction {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeInOut 3s infinite;
+        }
+
+        /* Custom cursor styles */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.15s ease;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+            z-index: 9997;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Background video */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.7;
+            transform: translateZ(-100px) scale(1.2);
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.3;
+            transform: translateZ(-50px);
+        }
+
+        /* Music Player - Moved to bottom */
+        .music-player {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateZ(20px);
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 25;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .music-player:hover {
+            transform: translateX(-50%) translateZ(30px) scale(1.02);
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateZ(10px);
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateZ(15px) scale(1.05);
+        }
+
+        .song-info {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+            text-align: center;
+            transform: translateZ(5px);
+        }
+
+        /* Profile block styling with 3D effects */
+        #profile-block {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+            width: 820px;
+            min-height: 332px;
+            background: rgba(10, 10, 10, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 30px rgba(0, 0, 0, 0.7),
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Enhanced Profile Header */
+        .profile-header {
+            background: 
+                linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.85) 100%),
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.05) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 20px;
+            position: relative;
+            transform-style: preserve-3d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.5),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .profile-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            z-index: 2;
+        }
+
+        .profile-container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff00cc, #3333ff, #00ccff, #ffcc00);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-container:hover::before {
+            opacity: 0.7;
+        }
+
+        .profile-container:hover {
+            transform: rotateY(15deg) scale(1.05) translateZ(10px);
+        }
+
+        .profile-picture {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            transform: translateZ(20px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-picture:hover {
+            transform: translateZ(30px) scale(1.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transform-style: preserve-3d;
+            position: relative;
+            z-index: 2;
+        }
+
+        .name-and-badges {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            transform-style: preserve-3d;
+        }
+
+        #profile-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            position: relative;
+            cursor: pointer;
+            transform: translateZ(10px);
+            transition: transform 0.3s ease;
+            background: linear-gradient(90deg, #fff, #aaa, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        #profile-name:hover {
+            transform: translateZ(20px) scale(1.05);
+        }
+
+        /* Username effect */
+        .username-effect {
+            position: relative;
+            display: inline-block;
+        }
+
+        .username-effect::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .username-effect:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #fff;
+            white-space: nowrap;
+            margin: 0 auto;
+        }
+
+        .typewriter-bio {
+            overflow: hidden;
+            white-space: normal;
+            word-wrap: break-word;
+            border-right: 2px solid #fff;
+        }
+
+        /* Grow effect for all text */
+        .grow-text {
+            transition: all 0.3s ease;
+        }
+
+        .grow-text:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Tooltip styling */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            transform-style: preserve-3d;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            backdrop-filter: blur(5px);
+            transform: translateZ(30px);
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 8px;
+            transform-style: preserve-3d;
+        }
+
+        .badge {
+            width: 28px;
+            height: 28px;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+        }
+
+        .badge:hover {
+            transform: rotateY(180deg) translateZ(10px) scale(1.2);
+        }
+
+        #profile-bio {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            line-height: 1.5;
+            min-height: 48px;
+            transform: translateZ(5px);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .bio-separator {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            margin: 10px 0;
+            transform: translateZ(5px);
+        }
+
+        .profile-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transform-style: preserve-3d;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            transform-style: preserve-3d;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            transition: all 0.3s ease;
+            filter: brightness(0.8);
+            transform-style: preserve-3d;
+            transform: translateZ(5px);
+        }
+
+        .social-icon:hover {
+            transform: translateZ(15px) scale(1.2) rotateY(15deg);
+            filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+        }
+
+        .visitor-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            align-self: flex-start;
+            transform: translateZ(10px);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .visitor-counter:hover {
+            transform: translateZ(20px) scale(1.05);
+        }
+
+        .visitor-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* 3D Floating elements */
+        .floating-element {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            z-index: 5;
+            transform-style: preserve-3d;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(4) {
+            bottom: 15%;
+            right: 25%;
+            animation-delay: 3s;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateZ(0); }
+            50% { transform: translateY(-20px) translateZ(10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes typing-bio {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #fff; }
+        }
+
+        .glitch {
+            animation: glitch 0.2s ease-in-out;
+        }
+
+        /* Responsive design */
+        @media (max-width: 430px) {
+            #profile-block {
+                width: 90vw;
+                max-width: 350px;
+                min-height: 280px;
+                padding: 15px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                height: auto;
+            }
+
+            .profile-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-info {
+                align-items: center;
+                text-align: center;
+            }
+
+            .name-and-badges {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+
+            #profile-name {
+                font-size: 24px;
+            }
+
+            .badge {
+                width: 20px;
+                height: 20px;
+            }
+
+            #profile-bio {
+                font-size: 14px;
+            }
+
+            .social-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .music-player {
+                bottom: 60px;
+                left: 50%;
+                transform: translateX(-50%) translateZ(20px);
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div id="loading-text">CLICK TO ENTER</div>
+        <div id="click-instruction">Click anywhere to continue</div>
+    </div>
+
+    <!-- Custom cursor elements -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Floating 3D elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <div class="container">
+        <!-- Background Video -->
+        <video id="background-video" loop muted autoplay>
+            <source src="https://files.catbox.moe/vnfhyw.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="noise-overlay"></div>
+
+        <!-- Music Player - Moved to bottom -->
+        <div class="music-player">
+            <div class="music-controls">
+                <button id="play-btn" class="music-btn">▶ Play</button>
+                <button id="pause-btn" class="music-btn">⏸ Pause</button>
+                <button id="next-btn" class="music-btn">⏭ Next</button>
+            </div>
+            <div class="song-info" id="current-song">No song playing</div>
+        </div>
+
+        <!-- Profile Block -->
+        <div id="profile-block">
+            <div class="profile-header">
+                <div class="profile-container">
+                    <img src="https://cdn.discordapp.com/avatars/1430655091584667660/6e4f8b3c7b5c5e5e5e5e5e5e5e5e5e5e.png" alt="Profile" class="profile-picture" id="profile-pic">
+                </div>
+                <div class="profile-info">
+                    <div class="name-and-badges">
+                        <div class="tooltip">
+                            <div id="profile-name" class="username-effect typewriter grow-text">Loading...</div>
+                            <span class="tooltiptext">uid: 0</span>
+                        </div>
+                        <div class="badge-group">
+                            <img src="assets/staff.png" alt="Staff" class="badge">
+                            <img src="assets/active_developer.png" alt="Active Developer" class="badge">
+                            <img src="assets/quests.png" alt="Quests" class="badge">
+                            <img src="assets/nitro.png" alt="Nitro" class="badge">
+                        </div>
+                    </div>
+                    <div id="profile-bio" class="typewriter-bio grow-text"></div>
+                </div>
+            </div>
+
+            <div class="bio-separator"></div>
+
+            <div class="profile-footer">
+                <div class="social-links">
+                    <a href="https://discord.gg/temeria" target="_blank">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                    <a href="https://open.spotify.com/user/31jp45akuf57akeioraa7bw5voz4?si=49c2170dbc6f49ae" target="_blank">
+                        <img src="assets/spotify.png" alt="Spotify" class="social-icon">
+                    </a>
+                    <a href="https://discord.gg/athen" target="_blank">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                    <a href="https://shadowfansub.com.tr/" target="_blank">
+                        <img src="assets/world.png" alt="Website" class="social-icon">
+                    </a>
+                    <a href="https://discord.gg/marino" target="_blank">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                    <a href="" target="_blank">
+                        <img src="assets/github.png" alt="GitHub" class="social-icon">
+                    </a>
+                    <a href="https://discord.gg/susku" target="_blank">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                </div>
+
+                <div class="visitor-counter grow-text">
+                    <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                        </path>
+                    </svg>
+                    <span id="visitor-count">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="backgroundsong"></audio>
+
+    <script>
+        // Loading overlay functionality
+        const loadingOverlay = document.getElementById('loading-overlay');
+        
+        function hideLoadingOverlay() {
+            loadingOverlay.style.opacity = '0';
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+            }, 500);
+        }
+        
+        document.addEventListener('click', function removeListener() {
+            hideLoadingOverlay();
+            document.removeEventListener('click', removeListener);
+        });
+
+        // Typewriter effect for multiple elements
+        function typeWriter(element, text, speed = 100, callback = null) {
+            let i = 0;
+            element.innerHTML = '';
+            element.style.animation = `typing ${text.length * speed / 100}s steps(${text.length}, end), blink-caret 0.75s step-end infinite`;
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        // Bio changer function with looping
+        let currentBioIndex = 0;
+        const bios = [
+            'better than nirvana',
+            'long live skel',
+            'coding enthusiast',
+            'music lover',
+            'digital creator'
+        ];
+
+        function changeBio() {
+            const bioElement = document.getElementById('profile-bio');
+            
+            typeWriter(bioElement, bios[currentBioIndex], 100, function() {
+                // Wait 3 seconds then change to next bio
+                setTimeout(() => {
+                    currentBioIndex = (currentBioIndex + 1) % bios.length;
+                    bioElement.innerHTML = '';
+                    changeBio(); // Loop back
+                }, 3000);
+            });
+        }
+
+        // Title typewriter effect with looping
+        let currentTitleIndex = 0;
+        const titles = [
+            '* a dfinncgk.0.0.5918',
+            '* music lover',
+            '* digital creator',
+            '* coding enthusiast'
+        ];
+
+        function changeTitle() {
+            const titleElement = document.getElementById('profile-name');
+            
+            typeWriter(titleElement, titles[currentTitleIndex], 100, function() {
+                // Wait 2 seconds then change to next title
+                setTimeout(() => {
+                    currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+                    titleElement.innerHTML = '';
+                    changeTitle(); // Loop back
+                }, 2000);
+            });
+        }
+
+        // Initialize typewriter effects
+        window.addEventListener('load', function() {
+            // Start title loop
+            changeTitle();
+            
+            // Start bio loop
+            changeBio();
+        });
+
+        // Custom cursor implementation
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }, 100);
+            
+            // Create cursor trail
+            const trail = document.createElement('div');
+            trail.classList.add('cursor-trail');
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            document.body.appendChild(trail);
+            
+            setTimeout(() => {
+                trail.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(trail);
+                }, 300);
+            }, 100);
+        });
+        
+        // Interactive elements cursor effect
+        const interactiveElements = document.querySelectorAll('a, button, .profile-picture, .badge, .social-icon, .tooltip');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(1.8)';
+                cursor.style.background = 'rgba(255, 50, 50, 0.8)';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+                cursor.style.background = 'rgba(255, 255, 255, 0.8)';
+            });
+        });
+
+        // 3D Effect for profile block
+        const profileBlock = document.getElementById('profile-block');
+        
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            
+            profileBlock.style.transform = `translate(-50%, -50%) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            
+            // Update shadow based on rotation
+            const shadowX = xAxis * 2;
+            const shadowY = yAxis * 2;
+            profileBlock.style.boxShadow = `
+                ${shadowX}px ${shadowY}px 30px rgba(0, 0, 0, 0.7),
+                ${shadowX * 2}px ${shadowY * 2}px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05)
+            `;
+        });
+
+        // Music Player functionality
+        const playlist = [
+            { url: 'https://qu.ax/nqWbN.mp3', name: 'back to my day job - skel' },
+            { url: 'https://qu.ax/EEqOs.mp3', name: 'fuck u i hate evryone - witchbox n skel' },
+            { url: 'https://qu.ax/bdqBn.mp3', name: 'loser club - skel aster' }
+        ];
+
+        const audio = document.getElementById('backgroundsong');
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSong = document.getElementById('current-song');
+        let index = 0;
+        let isPlaying = false;
+
+        function loadAndPlay() {
+            audio.src = playlist[index].url;
+            currentSong.textContent = playlist[index].name;
+            audio.play().catch(e => {
+                console.error('Playback blocked:', e);
+            });
+            isPlaying = true;
+        }
+
+        function playNext() {
+            index = (index + 1) % playlist.length;
+            loadAndPlay();
+        }
+
+        audio.addEventListener('ended', () => {
+            playNext();
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                loadAndPlay();
+            } else {
+                audio.play();
+            }
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            audio.pause();
+            isPlaying = false;
+        });
+
+        nextBtn.addEventListener('click', () => {
+            playNext();
+        });
+
+        // Start play on click anywhere on the page (after loading overlay)
+        document.addEventListener('click', function startMusic() {
+            if (!isPlaying) {
+                loadAndPlay();
+            }
+        }, { once: true });
+
+        // Generate random pathname
+        function generateRandomPath() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '/';
+            for (let i = 0; i < 10; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // Set random pathname
+        window.history.pushState({}, '', generateRandomPath());
 
         // Visitor counter simulation
         let visitorCount = Math.floor(Math.random() * 1000) + 500;
