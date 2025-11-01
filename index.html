@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Dox</title>
+    <title>Profile</title>
     <meta name="theme-color" content="#000001">
     <link rel="icon" href="https://qu.ax/wOPfl.png" type="image/x-icon">
     <link rel="shortcut icon" href="https://qu.ax/wOPfl.png" type="image/x-icon"> 
-    <meta content="Dox" property="og:title" />
+    <meta content="Profile" property="og:title" />
     <meta content="http://kys.lol/" property="og:url" />
     <meta content="https://i.imgur.com/y6XhCX6.jpeg" property="og:image" />
     <meta content="#000001" data-react-helmet="true" name="theme-color" />
@@ -654,7 +654,7 @@
                 <div class="profile-info">
                     <div class="name-and-badges">
                         <div class="tooltip">
-                            <div id="profile-name" class="username-effect typewriter grow-text">* myzgar</div>
+                            <div id="profile-name" class="username-effect typewriter grow-text">Loading...</div>
                             <span class="tooltiptext">uid: 0</span>
                         </div>
                         <div class="badge-group">
@@ -746,17 +746,26 @@
             type();
         }
 
-        // Bio changer function
+        // Bio changer function with looping
+        let currentBioIndex = 0;
+        const bios = [
+            'better than nirvana',
+            'long live skel',
+            'coding enthusiast',
+            'music lover',
+            'digital creator'
+        ];
+
         function changeBio() {
             const bioElement = document.getElementById('profile-bio');
             
-            // First bio
-            typeWriter(bioElement, 'better than nirvana', 100, function() {
-                // Wait 2 seconds then change to second bio
+            typeWriter(bioElement, bios[currentBioIndex], 100, function() {
+                // Wait 3 seconds then change to next bio
                 setTimeout(() => {
+                    currentBioIndex = (currentBioIndex + 1) % bios.length;
                     bioElement.innerHTML = '';
-                    typeWriter(bioElement, 'long live skel', 100);
-                }, 2000);
+                    changeBio(); // Loop back
+                }, 3000);
             });
         }
 
@@ -765,10 +774,7 @@
             const usernameElement = document.getElementById('profile-name');
             
             // Start with username
-            typeWriter(usernameElement, '* myzgar', 150, function() {
-                // Then start bio
-                changeBio();
-            });
+            typeWriter(usernameElement, 'Loading...', 150);
         });
 
         // Custom cursor implementation
@@ -917,7 +923,7 @@
                 // Set new content with typewriter effect
                 setTimeout(() => {
                     typeWriter(usernameElement, '* ' + user.username, 150, function() {
-                        // Change bio
+                        // Start bio loop
                         changeBio();
                         
                         // Change URL pathname to Discord username
@@ -925,7 +931,7 @@
                         
                         // Change page title with typewriter effect
                         document.title = '';
-                        let titleText = user.username + ' - Dox';
+                        let titleText = user.username;
                         let titleIndex = 0;
                         
                         function typeTitle() {
@@ -940,7 +946,7 @@
                 }, 100);
                 
                 // Set tooltip with user ID
-                document.querySelector('.tooltip .tooltiptext').textContent = 'uid: 0';
+                document.querySelector('.tooltip .tooltiptext').textContent = 'uid: ' + user.id;
                 
                 // Try to get banner
                 fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`)
@@ -961,16 +967,16 @@
                 usernameElement.classList.remove('typewriter');
                 
                 setTimeout(() => {
-                    typeWriter(usernameElement, '* YKT', 150, function() {
-                        // Change bio
+                    typeWriter(usernameElement, '* User', 150, function() {
+                        // Start bio loop
                         changeBio();
                         
                         // Change URL pathname to Discord username
-                        window.history.pushState({}, '', '/@YKT');
+                        window.history.pushState({}, '', '/@User');
                         
                         // Change page title with typewriter effect
                         document.title = '';
-                        let titleText = 'YKT - Dox';
+                        let titleText = 'User';
                         let titleIndex = 0;
                         
                         function typeTitle() {
