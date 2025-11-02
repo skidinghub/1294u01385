@@ -1008,7 +1008,7 @@
 
         // Set random pathname
         window.history.pushState({}, '', generateRandomPath());
-        }, 0);
+        }, 5);
         // Visitor counter simulation
         let visitorCount = Math.floor(Math.random() * 1000) + 500;
         document.getElementById('visitor-count').textContent = visitorCount;
@@ -1021,6 +1021,7 @@
     </script>
 </body>
 </html>
+
 
 
 
