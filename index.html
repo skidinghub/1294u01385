@@ -1004,7 +1004,7 @@
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return result;
-        }
+        }, 1);
 
         // Set random pathname
         window.history.pushState({}, '', generateRandomPath());
@@ -1017,9 +1017,10 @@
         setInterval(() => {
             visitorCount++;
             document.getElementById('visitor-count').textContent = visitorCount;
-        }, 100);
+        }, 5);
     </script>
 </body>
 </html>
+
 
 
