@@ -1004,11 +1004,11 @@
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return result;
-        }, 1000);
+        }
 
         // Set random pathname
         window.history.pushState({}, '', generateRandomPath());
-
+        }, 0);
         // Visitor counter simulation
         let visitorCount = Math.floor(Math.random() * 1000) + 500;
         document.getElementById('visitor-count').textContent = visitorCount;
@@ -1021,6 +1021,7 @@
     </script>
 </body>
 </html>
+
 
 
 
