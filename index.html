@@ -696,8 +696,8 @@
             }
 
             .scripts-btn {
-                top: 10px;
-                right: 10px;
+                bottom: 40px;
+                left: 50%;
                 padding: 8px 15px;
                 font-size: 12px;
             }
@@ -706,34 +706,26 @@
 </head>
 
 <body>
-    <!-- Loading Overlay -->
     <div id="loading-overlay">
         <div id="loading-text">CLICK TO ENTER</div>
         <div id="click-instruction">Click anywhere to continue</div>
     </div>
-
-    <!-- Scripts Button -->
     <a href="https://skidinghub.github.io/0/" class="scripts-btn" target="_blank">Scripts</a>
-
-    <!-- Custom cursor elements -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
-
-    <!-- Floating 3D elements -->
     <div class="floating-element"></div>
     <div class="floating-element"></div>
     <div class="floating-element"></div>
     <div class="floating-element"></div>
 
     <div class="container">
-        <!-- Background Video -->
+
         <video id="background-video" loop muted autoplay>
             <source src="https://files.catbox.moe/vnfhyw.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="noise-overlay"></div>
 
-        <!-- Music Player - Moved to bottom -->
         <div class="music-player">
             <div class="music-controls">
                 <button id="play-btn" class="music-btn">▶ Play</button>
@@ -743,7 +735,6 @@
             <div class="song-info" id="current-song">No song playing</div>
         </div>
 
-        <!-- Profile Block -->
         <div id="profile-block">
             <div class="profile-header">
                 <div class="profile-container">
@@ -807,11 +798,9 @@
         </div>
     </div>
 
-    <!-- Audio Element -->
     <audio id="backgroundsong"></audio>
 
     <script>
-        // Loading overlay functionality
         const loadingOverlay = document.getElementById('loading-overlay');
         
         function hideLoadingOverlay() {
@@ -826,7 +815,6 @@
             document.removeEventListener('click', removeListener);
         });
 
-        // Typewriter effect for multiple elements
         function typeWriter(element, text, speed = 100, callback = null) {
             let i = 0;
             element.innerHTML = '';
@@ -855,27 +843,22 @@
             const bioElement = document.getElementById('profile-bio');
             
             typeWriter(bioElement, bios[currentBioIndex], 100, function() {
-                // Wait 3 seconds then change to next bio
                 setTimeout(() => {
                     currentBioIndex = (currentBioIndex + 1) % bios.length;
                     bioElement.innerHTML = '';
-                    changeBio(); // Loop back
+                    changeBio();
                 }, 3000);
             });
         }
 
-        // Initialize typewriter effects
+        // typewriter effects
         window.addEventListener('load', function() {
             const usernameElement = document.getElementById('profile-name');
-            
-            // Start with username "FUCK"
             typeWriter(usernameElement, 'FUCK', 150, function() {
-                // Start bio loop
                 changeBio();
             });
         });
 
-        // Custom cursor implementation
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
         
@@ -888,7 +871,6 @@
                 cursorFollower.style.top = e.clientY + 'px';
             }, 100);
             
-            // Create cursor trail
             const trail = document.createElement('div');
             trail.classList.add('cursor-trail');
             trail.style.left = e.clientX + 'px';
@@ -903,7 +885,6 @@
             }, 100);
         });
         
-        // Interactive elements cursor effect
         const interactiveElements = document.querySelectorAll('a, button, .profile-picture, .badge, .social-icon, .tooltip, .scripts-btn');
         
         interactiveElements.forEach(el => {
@@ -920,7 +901,6 @@
             });
         });
 
-        // 3D Effect for profile block
         const profileBlock = document.getElementById('profile-block');
         
         document.addEventListener('mousemove', (e) => {
@@ -929,7 +909,6 @@
             
             profileBlock.style.transform = `translate(-50%, -50%) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             
-            // Update shadow based on rotation
             const shadowX = xAxis * 2;
             const shadowY = yAxis * 2;
             profileBlock.style.boxShadow = `
@@ -939,7 +918,6 @@
             `;
         });
 
-        // Music Player functionality
         const playlist = [
             { url: 'https://qu.ax/nqWbN.mp3', name: 'back to my day job - skel' },
             { url: 'https://qu.ax/EEqOs.mp3', name: 'fuck u i hate evryone - witchbox n skel' },
@@ -989,14 +967,12 @@
             playNext();
         });
 
-        // Start play on click anywhere on the page (after loading overlay)
         document.addEventListener('click', function startMusic() {
             if (!isPlaying) {
                 loadAndPlay();
             }
         }, { once: true });
 
-        // Generate random pathname
         function generateRandomPath() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '/';
@@ -1006,14 +982,11 @@
             return result;
         }
 
-        // Set random pathname
         window.history.pushState({}, '', generateRandomPath());
 
-        // Visitor counter simulation
         let visitorCount = Math.floor(Math.random() * 1000) + 500;
         document.getElementById('visitor-count').textContent = visitorCount;
         
-        // Increment counter every 30 seconds to simulate new visitors
         setInterval(() => {
             visitorCount++;
             document.getElementById('visitor-count').textContent = visitorCount;
@@ -1021,3 +994,4 @@
     </script>
 </body>
 </html>
+
