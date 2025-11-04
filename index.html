@@ -40,7 +40,6 @@
             transform-style: preserve-3d;
         }
 
-        /* Loading Overlay */
         #loading-overlay {
             position: fixed;
             top: 0;
@@ -75,7 +74,6 @@
             animation: fadeInOut 3s infinite;
         }
 
-        /* Custom cursor styles */
         .cursor {
             position: fixed;
             width: 20px;
@@ -110,7 +108,7 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Background video */
+
         #background-video {
             position: fixed;
             top: 0;
@@ -143,7 +141,7 @@
             transform: translateZ(-50px);
         }
 
-        /* Music Player - Moved to bottom */
+
         .music-player {
             position: fixed;
             bottom: 80px;
@@ -195,8 +193,8 @@
 
         /* Scripts Button */
         .scripts-btn {
-            position: fixed;
-            top: 20px;
+            bottom: 40px;
+            left: 50%;
             right: 20px;
             background: rgba(10, 10, 10, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -215,11 +213,10 @@
 
         .scripts-btn:hover {
             background: rgba(255, 255, 255, 0.1);
-            transform: translateZ(30px) scale(1.05);
+            transform: translateZ(20px) scale(1.05);
             border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Profile block styling with 3D effects */
         #profile-block {
             position: fixed;
             top: 50%;
@@ -244,7 +241,6 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Enhanced Profile Header */
         .profile-header {
             background: 
                 linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.85) 100%),
@@ -377,7 +373,6 @@
             transform: translateZ(20px) scale(1.05);
         }
 
-        /* Username effect */
         .username-effect {
             position: relative;
             display: inline-block;
@@ -399,7 +394,7 @@
             transform: scaleX(1);
         }
 
-        /* Typewriter effect */
+    
         .typewriter {
             overflow: hidden;
             border-right: 2px solid #fff;
@@ -414,7 +409,6 @@
             border-right: 2px solid #fff;
         }
 
-        /* Grow effect for all text */
         .grow-text {
             transition: all 0.3s ease;
         }
@@ -424,7 +418,6 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
-        /* Tooltip styling */
         .tooltip {
             position: relative;
             display: inline-block;
@@ -562,7 +555,7 @@
             height: 18px;
         }
 
-        /* 3D Floating elements */
+
         .floating-element {
             position: absolute;
             width: 10px;
@@ -598,7 +591,6 @@
             animation-delay: 3s;
         }
 
-        /* Animations */
         @keyframes float {
             0%, 100% { transform: translateY(0) translateZ(0); }
             50% { transform: translateY(-20px) translateZ(10px); }
@@ -633,7 +625,6 @@
             animation: glitch 0.2s ease-in-out;
         }
 
-        /* Responsive design */
         @media (max-width: 430px) {
             #profile-block {
                 width: 90vw;
@@ -707,7 +698,7 @@
 
 <body>
     <div id="loading-overlay">
-        <div id="loading-text">CLICK TO ENTER</div>
+        <div id="loading-text">Click</div>
         <div id="click-instruction">Click anywhere to continue</div>
     </div>
     <a href="https://skidinghub.github.io/0/" class="scripts-btn" target="_blank">Scripts</a>
@@ -994,5 +985,6 @@
     </script>
 </body>
 </html>
+
 
 
