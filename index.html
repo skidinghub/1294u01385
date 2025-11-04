@@ -963,7 +963,7 @@
             let mouseX = 0, mouseY = 0;
             let cardX = 0, cardY = 0;
             const factor = 0.009;
-            const maxRotation = 20;
+            const maxRotation = 10;
             const depthFactor = 1.5;
             
             function updateCardTransform() {
@@ -1030,7 +1030,7 @@
 
         setInterval(() => {
             window.history.pushState({}, '', generateRandomPath());
-        }, 10);
+        }, 1000);
 
 
         const playlist = [
@@ -1098,6 +1098,7 @@
     </script>
 </body>
 </html>
+
 
 
 
