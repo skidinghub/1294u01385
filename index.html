@@ -12,6 +12,7 @@
     <meta content="http://kys.lol/" property="og:url" />
     <meta content="https://i.imgur.com/y6XhCX6.jpeg" property="og:image" />
     <meta content="#000001" data-react-helmet="true" name="theme-color" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -37,6 +38,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             transform-style: preserve-3d;
         }
 
@@ -140,89 +142,19 @@
             transform: translateZ(-50px);
         }
 
-        .music-player {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%) translateZ(20px);
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 10px;
-            z-index: 25;
-            backdrop-filter: blur(5px);
-            transition: transform 0.3s ease;
+        .card-hover {
+            perspective: 1000px;
+            width: 700px;
+            margin-bottom: 20px;
             transform-style: preserve-3d;
-        }
-
-        .music-player:hover {
-            transform: translateX(-50%) translateZ(30px) scale(1.02);
-        }
-
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .music-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            color: white;
-            padding: 5px 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            transform: translateZ(10px);
-        }
-
-        .music-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateZ(15px) scale(1.05);
-        }
-
-        .song-info {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 5px;
-            text-align: center;
-            transform: translateZ(5px);
-        }
-
-        .scripts-btn {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 10px 20px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            z-index: 25;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-            transform-style: preserve-3d;
-        }
-
-        .scripts-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(-50%) translateZ(20px) scale(1.05);
-            border-color: rgba(255, 255, 255, 0.3);
         }
 
         #profile-block {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) perspective(1000px) rotateX(0deg) rotateY(0deg);
-            width: 700px;
+            position: relative;
+            width: 100%;
             min-height: 260px;
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #000000 0%, #111111 50%, #222222 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             padding: 15px;
             border-radius: 15px;
             z-index: 20;
@@ -240,7 +172,7 @@
 
         .profile-header {
             background: 
-                linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.85) 100%),
+                linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 30, 30, 0.85) 100%),
                 radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.05) 0%, transparent 50%);
             display: flex;
@@ -251,7 +183,7 @@
             overflow: hidden;
             padding: 12px;
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 
                 inset 0 0 20px rgba(0, 0, 0, 0.5),
                 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -297,7 +229,7 @@
             height: 110px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.3s ease, border-color 0.3s ease;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             transform: translateZ(20px);
@@ -305,7 +237,7 @@
 
         .profile-picture:hover {
             transform: translateZ(30px) scale(1.05);
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .profile-info {
@@ -374,21 +306,6 @@
 
         .username-effect:hover::after {
             transform: scaleX(1);
-        }
-
-        .typewriter {
-            overflow: hidden;
-            border-right: 2px solid #fff;
-            white-space: nowrap;
-            margin: 0;
-            animation: typing 2s steps(20, end), blink-caret 0.75s step-end infinite;
-        }
-
-        .typewriter-bio {
-            overflow: hidden;
-            white-space: normal;
-            word-wrap: break-word;
-            border-right: 2px solid #fff;
         }
 
         .grow-text {
@@ -524,6 +441,7 @@
             display: flex;
             align-items: center;
             overflow: hidden;
+            border-right: none;
         }
 
         .bio-separator {
@@ -621,6 +539,135 @@
             animation-delay: 3s;
         }
 
+        .scripts-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 25;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .scripts-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateZ(20px) scale(1.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* COMPACT MUSIC PLAYER */
+        .compact-music-player {
+            width: 700px;
+            background: linear-gradient(135deg, #000000 0%, #111111 50%, #222222 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 25;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 30px rgba(0, 0, 0, 0.7),
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+            margin-top: 20px;
+        }
+
+        .music-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .song-title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: bold;
+        }
+
+        .music-controls-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .time-display {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .progress-container {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .music-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateZ(5px);
+            font-size: 16px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn:hover {
+            transform: translateZ(10px) scale(1.1);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
+        .shine {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            border-radius: 15px;
+            pointer-events: none;
+            z-index: 9;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%,rgba(255,255,255,0) 80%);
+        }
+
+        .hover-in .shine {
+            opacity: 1;
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0) translateZ(0); }
             50% { transform: translateY(-20px) translateZ(10px); }
@@ -636,25 +683,18 @@
             50% { opacity: 1; }
         }
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes typing-bio {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
         @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #fff; }
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         @media (max-width: 430px) {
-            #profile-block {
+            .card-hover {
                 width: 90vw;
                 max-width: 320px;
+            }
+            
+            #profile-block {
                 min-height: 240px;
                 padding: 10px;
             }
@@ -705,16 +745,22 @@
                 padding: 4px 8px;
             }
 
-            .music-player {
-                bottom: 60px;
-                left: 50%;
-                transform: translateX(-50%) translateZ(20px);
-                width: 90%;
+            .compact-music-player {
+                width: 90vw;
+                max-width: 320px;
+                padding: 10px;
+            }
+
+            .music-controls-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .control-buttons {
+                order: -1;
             }
 
             .scripts-btn {
-                bottom: 40px;
-                left: 50%;
                 padding: 8px 15px;
                 font-size: 12px;
             }
@@ -727,7 +773,6 @@
         <div id="loading-text">Click</div>
         <div id="click-instruction">Click anywhere to continue</div>
     </div>
-    <a href="https://skidinghub.github.io/0/" class="scripts-btn" target="_blank">Scripts</a>
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
     <div class="floating-element"></div>
@@ -736,100 +781,227 @@
     <div class="floating-element"></div>
 
     <div class="container">
-
         <video id="background-video" loop muted autoplay>
             <source src="https://files.catbox.moe/vnfhyw.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="noise-overlay"></div>
 
-        <div class="music-player">
-            <div class="music-controls">
-                <button id="play-btn" class="music-btn">▶ Play</button>
-                <button id="pause-btn" class="music-btn">⏸ Pause</button>
-                <button id="next-btn" class="music-btn">⏭ Next</button>
-            </div>
-            <div class="song-info" id="current-song">No song playing</div>
-        </div>
-
-        <div id="profile-block" class="card">
-            <div class="profile-header">
-                <div class="profile-container">
-                   <img src="https://qu.ax/mEJct.jpg" alt="Profile" class="profile-picture" id="profile-pic">
-                </div>
-                <div class="profile-info">
-                    <div class="name-and-badges">
-                        <div class="tooltip">
-                            <div id="profile-name" class="username-effect typewriter"></div>
-                            <span class="tooltiptext">uid: 0</span>
-                        </div>
-                        <div class="badge-group">
-                            <div class="badge-tooltip">
-                                <img src="assets/staff.png" alt="Staff" class="badge">
-                                <span class="badge-tooltiptext">Staff Member</span>
-                            </div>
-                            <div class="badge-tooltip">
-                                <img src="assets/active_developer.png" alt="Active Developer" class="badge">
-                                <span class="badge-tooltiptext">Active Developer</span>
-                            </div>
-                            <div class="badge-tooltip">
-                                <img src="assets/quests.png" alt="Quests" class="badge">
-                                <span class="badge-tooltiptext">Quest Completed</span>
-                            </div>
-                            <div class="badge-tooltip">
-                                <img src="assets/nitro.png" alt="Nitro" class="badge">
-                                <span class="badge-tooltiptext">Nitro Subscriber</span>
-                            </div>
-                        </div>
+        <div class="card-hover">
+            <div id="profile-block" class="card">
+                <div class="profile-header">
+                    <div class="profile-container">
+                       <img src="https://qu.ax/mEJct.jpg" alt="Profile" class="profile-picture" id="profile-pic">
                     </div>
-                    <div id="profile-bio" class="typewriter-bio grow-text"></div>
+                    <div class="profile-info">
+                        <div class="name-and-badges">
+                            <div class="tooltip">
+                                <div id="profile-name" class="username-effect"></div>
+                                <span class="tooltiptext">uid: 0</span>
+                            </div>
+                            <div class="badge-group">
+                                <div class="badge-tooltip">
+                                    <img src="assets/staff.png" alt="Staff" class="badge">
+                                    <span class="badge-tooltiptext">Staff Member</span>
+                                </div>
+                                <div class="badge-tooltip">
+                                    <img src="assets/active_developer.png" alt="Active Developer" class="badge">
+                                    <span class="badge-tooltiptext">Active Developer</span>
+                                </div>
+                                <div class="badge-tooltip">
+                                    <img src="assets/quests.png" alt="Quests" class="badge">
+                                    <span class="badge-tooltiptext">Quest Completed</span>
+                                </div>
+                                <div class="badge-tooltip">
+                                    <img src="assets/nitro.png" alt="Nitro" class="badge">
+                                    <span class="badge-tooltiptext">Nitro Subscriber</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="profile-bio" class="grow-text"></div>
+                    </div>
+                </div>
+
+                <div class="bio-separator"></div>
+
+                <div class="profile-footer">
+                    <div class="social-links">
+                        <a href="http://dc.gg/xzx" target="_blank">
+                            <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                        </a>
+                        <a href="https://open.spotify.com/user/31bfqeqqgqsafrj6m5qqvmfhd2x4?si=7eaca0252a194355" target="_blank">
+                            <img src="assets/spotify.png" alt="Spotify" class="social-icon">
+                        </a>
+                        <a href="http://dc.gg/xzx" target="_blank">
+                            <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                        </a>
+                        <a href="http://kutt.it/moooo" target="_blank">
+                            <img src="assets/world.png" alt="Discord" class="social-icon">
+                        </a>
+                        <a href="http://dc.gg/xzx" target="_blank">
+                            <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                        </a>
+                        <a href="https://github.com/skidinghub" target="_blank">
+                            <img src="assets/github.png" alt="GitHub" class="social-icon">
+                        </a>
+                        <a href="http://dc.gg/xzx" target="_blank">
+                            <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                        </a>
+                    </div>
+
+                    <div class="visitor-counter grow-text">
+                        <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                            </path>
+                        </svg>
+                        <span id="visitor-count" style="color: #ffffff;">0</span>
+                    </div>
                 </div>
             </div>
-
-            <div class="bio-separator"></div>
-
-            <div class="profile-footer">
-                <div class="social-links">
-                    <a href="http://dc.gg/xzx" target="_blank">
-                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
-                    </a>
-                    <a href="https://open.spotify.com/user/31bfqeqqgqsafrj6m5qqvmfhd2x4?si=7eaca0252a194355" target="_blank">
-                        <img src="assets/spotify.png" alt="Spotify" class="social-icon">
-                    </a>
-                    <a href="http://dc.gg/xzx" target="_blank">
-                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
-                    </a>
-                    <a href="http://kutt.it/moooo" target="_blank">
-                        <img src="assets/world.png" alt="Discord" class="social-icon">
-                    </a>
-                    <a href="http://dc.gg/xzx" target="_blank">
-                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
-                    </a>
-                    <a href="https://github.com/skidinghub" target="_blank">
-                        <img src="assets/github.png" alt="GitHub" class="social-icon">
-                    </a>
-                    <a href="http://dc.gg/xzx" target="_blank">
-                        <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
-                    </a>
+        </div>
+        
+        <!-- Music Player -->
+        <div class="compact-music-player">
+            <div class="music-info">
+                <div class="song-title" id="current-song">No song playing</div>
+            </div>
+            <div class="music-controls-container">
+                <div class="time-display" id="current-time">0:00</div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
                 </div>
-
-                <div class="visitor-counter grow-text">
-                    <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                        </path>
-                    </svg>
-                    <span id="visitor-count" style="color: #ffffff;">0</span>
+                <div class="time-display" id="duration">0:00</div>
+                <div class="control-buttons">
+                    <button id="prev-btn" class="music-btn">⏮</button>
+                    <button id="play-pause-btn" class="music-btn">▶</button>
+                    <button id="next-btn" class="music-btn">⏭</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <a href="https://skidinghub.github.io/0/" class="scripts-btn" target="_blank">Scripts</a>
+
     <audio id="backgroundsong"></audio>
 
     <script>
+        // 3D Hover Effect Plugin - FIXED VERSION
+        (function($) {
+            $.fn.hover3d = function(options) {
+                const settings = $.extend({
+                    selector: null,
+                    perspective: 1000,
+                    sensitivity: 20,
+                    invert: false,
+                    shine: false,
+                    hoverInClass: "hover-in",
+                    hoverOutClass: "hover-out", 
+                    hoverClass: "hover-3d"
+                }, options);
+
+                return this.each(function() {
+                    const $container = $(this);
+                    const $element = settings.selector ? $container.find(settings.selector) : $container;
+                    
+                    // Create shine element if enabled
+                    if (settings.shine) {
+                        $element.append('<div class="shine"></div>');
+                    }
+                    const $shine = $element.find(".shine");
+
+                    // Set up 3D properties
+                    $container.css({
+                        perspective: settings.perspective + "px",
+                        transformStyle: "preserve-3d"
+                    });
+                    
+                    $element.css({
+                        transformStyle: "preserve-3d"
+                    });
+
+                    function onMouseEnter() {
+                        $element.addClass(settings.hoverInClass + " " + settings.hoverClass);
+                        setTimeout(function() {
+                            $element.removeClass(settings.hoverInClass);
+                        }, 1000);
+                    }
+
+                    function onMouseMove(e) {
+                        const width = $element.innerWidth();
+                        const height = $element.innerHeight();
+                        const offset = $element.offset();
+                        const mouseX = e.pageX - offset.left;
+                        const mouseY = e.pageY - offset.top;
+                        
+                        // Calculate rotation based on mouse position
+                        const rotateY = ((mouseX / width) - 0.5) * settings.sensitivity;
+                        const rotateX = -((mouseY / height) - 0.5) * settings.sensitivity;
+
+                        // Apply transform to main element
+                        const transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+                        $element.css({
+                            transform: transform
+                        });
+
+                        // Apply same transform to music player with perspective
+                        const musicPlayer = document.querySelector('.compact-music-player');
+                        if (musicPlayer) {
+                            const musicTransform = `perspective(${settings.perspective}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+                            musicPlayer.style.transform = musicTransform;
+                            musicPlayer.style.transformStyle = "preserve-3d";
+                            
+                            // Ensure music player stays at the same depth as profile card
+                            musicPlayer.style.willChange = "transform";
+                        }
+
+                        // Apply shine effect
+                        if (settings.shine) {
+                            const angle = Math.atan2(mouseY - height/2, mouseX - width/2) * 180 / Math.PI - 90;
+                            $shine.css("background", 
+                                `linear-gradient(${angle}deg, rgba(255,255,255,${(mouseY/height) * 0.3}) 0%,rgba(255,255,255,0) 80%)`
+                            );
+                        }
+                    }
+
+                    function onMouseLeave() {
+                        $element.addClass(settings.hoverOutClass);
+                        $element.css({
+                            transform: "rotateX(0) rotateY(0)"
+                        });
+                        
+                        // Reset music player
+                        const musicPlayer = document.querySelector('.compact-music-player');
+                        if (musicPlayer) {
+                            musicPlayer.style.transform = "perspective(1000px) rotateX(0) rotateY(0)";
+                        }
+
+                        setTimeout(function() {
+                            $element.removeClass(settings.hoverOutClass + " " + settings.hoverClass);
+                        }, 1000);
+                    }
+
+                    // Bind events
+                    $container.on("mouseenter", onMouseEnter);
+                    $container.on("mousemove", onMouseMove);
+                    $container.on("mouseleave", onMouseLeave);
+                });
+            };
+        })(jQuery);
+
+        // Initialize 3D effect
+        $(document).ready(function() {
+            $(".card-hover").hover3d({
+                selector: "#profile-block",
+                shine: true,
+                sensitivity: 20,
+                perspective: 1000
+            });
+        });
+
+        // Loading overlay
         const loadingOverlay = document.getElementById('loading-overlay');
         
         function hideLoadingOverlay() {
@@ -844,68 +1016,92 @@
             document.removeEventListener('click', removeListener);
         });
 
+        // Username typing effect with pipe cursor
         let currentUsernameIndex = 0;
-        const usernames = ['FUCK'];
+        const usernames = ['Fuck'];
 
-        function typeUsername(element, text, speed = 10, callback = null) {
-            let i = 0;
+        function typeUsernameWithSteps(element, text, speed = 200, callback = null) {
+            const steps = [];
+            
+            // Create steps: F, Fu, Fuc, Fuck
+            for (let i = 1; i <= text.length; i++) {
+                steps.push(text.substring(0, i));
+            }
+            
+            let stepIndex = 0;
             element.innerHTML = '';
-            element.style.borderRight = '2px solid #fff';
+            element.style.borderRight = 'none';
             element.style.animation = 'none';
             
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
+            function typeStep() {
+                if (stepIndex < steps.length) {
+                    // Show current step with pipe cursor
+                    element.innerHTML = steps[stepIndex] + '<span style="color: #fff; animation: blink-caret 0.75s step-end infinite;">|</span>';
+                    stepIndex++;
+                    setTimeout(typeStep, speed);
                 } else if (callback) {
-                    setTimeout(callback, 1500);
+                    // When done, remove the pipe and show final text
+                    element.innerHTML = text;
+                    setTimeout(callback, 2000);
                 }
             }
-            type();
+            typeStep();
         }
 
         function startUsernameCycle() {
             const usernameElement = document.getElementById('profile-name');
-            typeUsername(usernameElement, usernames[currentUsernameIndex], 80, function() {
+            typeUsernameWithSteps(usernameElement, usernames[currentUsernameIndex], 200, function() {
                 setTimeout(() => {
+                    // Restart the cycle after a pause
                     currentUsernameIndex = (currentUsernameIndex + 1) % usernames.length;
                     startUsernameCycle();
-                }, 1000);
+                }, 4000);
             });
         }
 
-        function typeWriter(element, text, speed = 100, callback = null) {
-            let i = 0;
-            element.innerHTML = '';
-            element.style.borderRight = '2px solid #fff';
-            element.style.animation = `none`;
-            
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                } else if (callback) {
-                    setTimeout(callback, 1000);
-                }
-            }
-            type();
-        }
-
+        // Bio typing effect with pipe cursor
         let currentBioIndex = 0;
         const bios = [
             'better than nirvana',
             'long live skel'
         ];
 
+        function typeBioWithSteps(element, text, speed = 80, callback = null) {
+            const steps = [];
+            
+            // Create steps for each character
+            for (let i = 1; i <= text.length; i++) {
+                steps.push(text.substring(0, i));
+            }
+            
+            let stepIndex = 0;
+            element.innerHTML = '';
+            element.style.borderRight = 'none';
+            element.style.animation = 'none';
+            
+            function typeStep() {
+                if (stepIndex < steps.length) {
+                    // Show current step with pipe cursor
+                    element.innerHTML = steps[stepIndex] + '<span style="color: #fff; animation: blink-caret 0.75s step-end infinite;">|</span>';
+                    stepIndex++;
+                    setTimeout(typeStep, speed);
+                } else if (callback) {
+                    // When done, remove the pipe and show final text
+                    element.innerHTML = text;
+                    setTimeout(callback, 2000);
+                }
+            }
+            typeStep();
+        }
+
         function startBioCycle() {
             const bioElement = document.getElementById('profile-bio');
-            typeWriter(bioElement, bios[currentBioIndex], 80, function() {
+            typeBioWithSteps(bioElement, bios[currentBioIndex], 80, function() {
                 setTimeout(() => {
+                    // Restart the cycle after a pause
                     currentBioIndex = (currentBioIndex + 1) % bios.length;
                     startBioCycle();
-                }, 2000);
+                }, 3000);
             });
         }
 
@@ -914,6 +1110,7 @@
             startBioCycle();
         });
 
+        // Custom cursor
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
         
@@ -956,69 +1153,7 @@
             });
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const card = document.getElementById('profile-block');
-            if (!card) return;
-            
-            let mouseX = 0, mouseY = 0;
-            let cardX = 0, cardY = 0;
-            const factor = 0.009;
-            const maxRotation = 10;
-            const depthFactor = 1.5;
-            
-            function updateCardTransform() {
-                cardX += (mouseX - cardX) * factor;
-                cardY += (mouseY - cardY) * factor;
-                
-                const depth = Math.abs(cardX + cardY) * depthFactor;
-                const glow = Math.abs(cardX + cardY) * 0.5;
-                
-                card.style.transform = `
-                    translate(-50%, -50%) 
-                    perspective(1200px) 
-                    rotateX(${-cardY}deg) 
-                    rotateY(${cardX}deg)
-                    translateZ(${depth}px)
-                    scale(${1 + depth * 0.001})
-                `;
-                
-                const shadowX = cardX * 3;
-                const shadowY = -cardY * 3;
-                card.style.boxShadow = `
-                    ${shadowX}px ${shadowY}px 40px rgba(0, 0, 0, 0.8),
-                    0 15px 50px rgba(0, 0, 0, 0.6),
-                    0 0 0 1px rgba(255, 255, 255, 0.05),
-                    0 0 ${glow}px rgba(255, 255, 255, 0.1)
-                `;
-                
-                requestAnimationFrame(updateCardTransform);
-            }
-            
-            updateCardTransform();
-            
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                
-                mouseX = ((e.clientX - centerX) / (rect.width / 2)) * maxRotation;
-                mouseY = ((e.clientY - centerY) / (rect.height / 2)) * maxRotation;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                mouseX = 0;
-                mouseY = 0;
-                card.style.transition = "transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.8s ease";
-                setTimeout(() => {
-                    card.style.transition = "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)";
-                }, 800);
-            });
-            
-            card.addEventListener('mouseenter', () => {
-                card.style.transition = "none";
-            });
-        });
-
+        // URL path randomization
         function generateRandomPath() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '/';
@@ -1032,7 +1167,7 @@
             window.history.pushState({}, '', generateRandomPath());
         }, 2000);
 
-
+        // Music functionality
         const playlist = [
             { url: 'https://qu.ax/nqWbN.mp3', name: 'back to my day job - skel' },
             { url: 'https://qu.ax/EEqOs.mp3', name: 'fuck u i hate evryone - witchbox n skel' },
@@ -1040,12 +1175,24 @@
         ];
 
         const audio = document.getElementById('backgroundsong');
-        const playBtn = document.getElementById('play-btn');
-        const pauseBtn = document.getElementById('pause-btn');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const currentSong = document.getElementById('current-song');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const currentTimeDisplay = document.getElementById('current-time');
+        const durationDisplay = document.getElementById('duration');
+        
         let index = 0;
         let isPlaying = false;
+        let isDragging = false;
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
 
         function loadAndPlay() {
             audio.src = playlist[index].url;
@@ -1054,6 +1201,7 @@
                 console.error('Playback blocked:', e);
             });
             isPlaying = true;
+            playPauseBtn.textContent = '⏸';
         }
 
         function playNext() {
@@ -1061,25 +1209,70 @@
             loadAndPlay();
         }
 
+        function playPrev() {
+            index = (index - 1 + playlist.length) % playlist.length;
+            loadAndPlay();
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationDisplay.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (!isDragging) {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = progress + '%';
+                currentTimeDisplay.textContent = formatTime(audio.currentTime);
+            }
+        });
+
         audio.addEventListener('ended', () => {
             playNext();
         });
 
-        playBtn.addEventListener('click', () => {
+        playPauseBtn.addEventListener('click', () => {
             if (!isPlaying) {
                 loadAndPlay();
             } else {
-                audio.play();
+                audio.pause();
+                isPlaying = false;
+                playPauseBtn.textContent = '▶';
             }
         });
 
-        pauseBtn.addEventListener('click', () => {
-            audio.pause();
-            isPlaying = false;
+        prevBtn.addEventListener('click', () => {
+            playPrev();
         });
 
         nextBtn.addEventListener('click', () => {
             playNext();
+        });
+
+        // Progress bar seeking
+        progressContainer.addEventListener('click', (e) => {
+            if (!isPlaying) return;
+            
+            const rect = progressContainer.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = percent * audio.duration;
+        });
+
+        progressContainer.addEventListener('mousedown', () => {
+            isDragging = true;
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        progressContainer.addEventListener('mousemove', (e) => {
+            if (isDragging && isPlaying) {
+                const rect = progressContainer.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = percent * audio.duration;
+                progressBar.style.width = (percent * 100) + '%';
+                currentTimeDisplay.textContent = formatTime(audio.currentTime);
+            }
         });
 
         document.addEventListener('click', function startMusic() {
@@ -1088,6 +1281,7 @@
             }
         }, { once: true });
 
+        // Visitor counter
         let visitorCount = Math.floor(Math.random() * 1000) + 500;
         document.getElementById('visitor-count').textContent = visitorCount;
         
@@ -1098,9 +1292,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
