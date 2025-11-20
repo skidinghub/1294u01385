@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>•  Fuck</title>
+    <title id="page-title">• Fuck</title>
     <meta name="theme-color" content="#000001">
     <link rel="icon" href="https://qu.ax/wOPfl.png" type="image/x-icon">
-    <link rel="shortcut icon" href="https://qu.ax/wOPfl.png" type="image/x-icon"> 
-    <meta content="" property="og:title" />
+    <link rel="shortcut icon" href="https://qu.ax/wOPfl.png" type="image/x-icon">
+    <meta content="Fuck" property="og:title" />
     <meta content="http://kys.lol/" property="og:url" />
     <meta content="https://i.imgur.com/y6XhCX6.jpeg" property="og:image" />
     <meta content="#000001" data-react-helmet="true" name="theme-color" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="obfuscat.js"></script>
     <style>
         * {
             margin: 0;
@@ -21,7 +22,8 @@
             font-family: 'Courier New', monospace;
             cursor: none;
         }
-        .social-links a, .scripts-btn {
+
+        .social-links a, .scripts-btn, .music-btn {
             cursor: pointer !important;
             pointer-events: auto !important;
             position: relative;
@@ -135,24 +137,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
-                transparent 1px,
-                transparent 2px
-            );
+            background: repeating-linear-gradient( 0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px );
             pointer-events: none;
             z-index: 2;
             opacity: 0.3;
             transform: translateZ(-50px);
         }
 
-        .card-hover {
-            perspective: 1000px;
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             width: 700px;
-            margin-bottom: 20px;
             transform-style: preserve-3d;
+        }
+
+        #combined-container {
+            width: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         #profile-block {
@@ -168,19 +171,13 @@
             flex-direction: column;
             gap: 10px;
             backdrop-filter: blur(10px);
-            box-shadow: 
-                0 0 30px rgba(0, 0, 0, 0.7),
-                0 10px 40px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
             transform-style: preserve-3d;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .profile-header {
-            background: 
-                linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 30, 30, 0.85) 100%),
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.05) 0%, transparent 50%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 30, 30, 0.85) 100%), radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.05) 0%, transparent 50%);
             display: flex;
             align-items: flex-start;
             gap: 15px;
@@ -190,32 +187,30 @@
             padding: 12px;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 
-                inset 0 0 20px rgba(0, 0, 0, 0.5),
-                0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3);
             transform-style: preserve-3d;
         }
 
-        .profile-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
+            .profile-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
 
-        .profile-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        }
+            .profile-header::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            }
 
         .profile-container {
             position: relative;
@@ -224,10 +219,6 @@
             transition: transform 0.5s ease;
             z-index: 2;
             transform-style: preserve-3d;
-        }
-
-        .profile-container:hover {
-            transform: rotateY(15deg) scale(1.05);
         }
 
         .profile-picture {
@@ -241,10 +232,10 @@
             transform: translateZ(20px);
         }
 
-        .profile-picture:hover {
-            transform: translateZ(30px) scale(1.05);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
+            .profile-picture:hover {
+                transform: translateZ(30px) scale(1.05);
+                border-color: rgba(255, 255, 255, 0.4);
+            }
 
         .profile-info {
             flex: 1;
@@ -285,8 +276,13 @@
         }
 
         @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         #profile-name:hover {
@@ -298,30 +294,30 @@
             display: inline-block;
         }
 
-        .username-effect::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background: linear-gradient(90deg, transparent, #fff, transparent);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
+            .username-effect::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: -2px;
+                left: 0;
+                background: linear-gradient(90deg, transparent, #fff, transparent);
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
+            }
 
-        .username-effect:hover::after {
-            transform: scaleX(1);
-        }
+            .username-effect:hover::after {
+                transform: scaleX(1);
+            }
 
         .grow-text {
             transition: all 0.3s ease;
         }
 
-        .grow-text:hover {
-            transform: scale(1.05);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
+            .grow-text:hover {
+                transform: scale(1.05);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
 
         .tooltip {
             position: relative;
@@ -329,44 +325,45 @@
             transform-style: preserve-3d;
         }
 
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 80px;
-            background-color: rgba(0, 0, 0, 0.95);
-            color: #ffffff;
-            text-align: center;
-            border-radius: 4px;
-            padding: 6px 8px;
-            position: absolute;
-            z-index: 100;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -40px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            font-size: 11px;
-            font-family: 'Courier New', monospace;
-            backdrop-filter: blur(5px);
-            transform: translateZ(30px);
-            white-space: nowrap;
-        }
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 120px;
+                background-color: rgba(0, 0, 0, 0.95);
+                color: #ffffff;
+                text-align: center;
+                border-radius: 8px;
+                padding: 10px 12px;
+                position: absolute;
+                z-index: 100;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -60px;
+                opacity: 0;
+                transition: opacity 0.3s;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                font-size: 12px;
+                font-family: 'Courier New', monospace;
+                backdrop-filter: blur(10px);
+                transform: translateZ(30px);
+                white-space: nowrap;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            }
 
-        .tooltip .tooltiptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
-        }
+                .tooltip .tooltiptext::after {
+                    content: "";
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
+                }
 
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
 
         .badge-group {
             display: flex;
@@ -379,44 +376,45 @@
             display: inline-block;
         }
 
-        .badge-tooltip .badge-tooltiptext {
-            visibility: hidden;
-            width: 120px;
-            background-color: rgba(0, 0, 0, 0.95);
-            color: #ffffff;
-            text-align: center;
-            border-radius: 4px;
-            padding: 6px 8px;
-            position: absolute;
-            z-index: 100;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -60px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            font-size: 11px;
-            font-family: 'Courier New', monospace;
-            backdrop-filter: blur(5px);
-            transform: translateZ(30px);
-            white-space: nowrap;
-        }
+            .badge-tooltip .badge-tooltiptext {
+                visibility: hidden;
+                width: 140px;
+                background-color: rgba(0, 0, 0, 0.95);
+                color: #ffffff;
+                text-align: center;
+                border-radius: 8px;
+                padding: 10px 12px;
+                position: absolute;
+                z-index: 100;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -70px;
+                opacity: 0;
+                transition: opacity 0.3s;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                font-size: 12px;
+                font-family: 'Courier New', monospace;
+                backdrop-filter: blur(10px);
+                transform: translateZ(30px);
+                white-space: nowrap;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            }
 
-        .badge-tooltip .badge-tooltiptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
-        }
+                .badge-tooltip .badge-tooltiptext::after {
+                    content: "";
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
+                }
 
-        .badge-tooltip:hover .badge-tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
+            .badge-tooltip:hover .badge-tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
 
         .badge {
             width: 22px;
@@ -424,10 +422,33 @@
             transition: transform 0.3s ease;
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
             transform-style: preserve-3d;
+            animation: badge-glow 3s infinite alternate;
+            fill: #ffffff;
         }
 
-        .badge:hover {
-            transform: rotateY(180deg) translateZ(10px) scale(1.2);
+            .badge:hover {
+                transform: rotateY(180deg) translateZ(10px) scale(1.2);
+                animation: badge-glow-hover 1s infinite alternate;
+            }
+
+        @keyframes badge-glow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+            }
+        }
+
+        @keyframes badge-glow-hover {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1));
+            }
         }
 
         #profile-bio {
@@ -450,11 +471,63 @@
             border-right: none;
         }
 
-        .bio-separator {
+        .discord-activity-box {
             width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            margin: 6px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform-style: preserve-3d;
+            transform: translateZ(5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .discord-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .discord-activity-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .discord-username {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .discord-activity-status {
+            font-size: 12px;
+            color: #b9bbbe;
+        }
+
+        .discord-activity-details {
+            font-size: 12px;
+            color: #ffffff;
+        }
+
+        .discord-activity-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spotify-icon {
+            color: #1DB954;
+            font-size: 16px;
         }
 
         .profile-footer {
@@ -464,9 +537,14 @@
             transform-style: preserve-3d;
         }
 
-        .social-links {
+        .footer-top {
             display: flex;
             justify-content: center;
+            align-items: center;
+        }
+
+        .social-links {
+            display: flex;
             gap: 10px;
             transform-style: preserve-3d;
         }
@@ -480,34 +558,64 @@
             transform: translateZ(5px);
         }
 
-        .social-icon:hover {
-            transform: translateZ(15px) scale(1.2) rotateY(15deg);
-            filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            .social-icon:hover {
+                transform: translateZ(15px) scale(1.2) rotateY(15deg);
+                filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transform-style: preserve-3d;
         }
 
         .visitor-counter {
             display: flex;
             align-items: center;
             gap: 5px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 5px 10px;
-            border-radius: 14px;
             font-size: 12px;
-            align-self: flex-start;
             transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transform: translateZ(10px);
             color: #ffffff;
+            transform: translateZ(10px);
         }
 
-        .visitor-counter:hover {
-            transform: translateZ(20px) scale(1.05);
-        }
+            .visitor-counter:hover {
+                transform: translateZ(20px) scale(1.05);
+            }
 
         .visitor-icon {
             width: 14px;
             height: 14px;
             color: #ffffff;
+        }
+
+        .location-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+            color: #ffffff;
+            transform: translateZ(10px);
+        }
+
+        .location-icon {
+            width: 14px;
+            height: 14px;
+            color: #888888;
+        }
+
+        .location-text {
+            font-size: 12px;
+            color: #ffffff;
+        }
+
+        .separator-dot {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            transform: translateZ(10px);
         }
 
         .floating-element {
@@ -521,29 +629,29 @@
             transform-style: preserve-3d;
         }
 
-        .floating-element:nth-child(1) {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
+            .floating-element:nth-child(1) {
+                top: 10%;
+                left: 10%;
+                animation-delay: 0s;
+            }
 
-        .floating-element:nth-child(2) {
-            top: 20%;
-            right: 15%;
-            animation-delay: 1s;
-        }
+            .floating-element:nth-child(2) {
+                top: 20%;
+                right: 15%;
+                animation-delay: 1s;
+            }
 
-        .floating-element:nth-child(3) {
-            bottom: 30%;
-            left: 20%;
-            animation-delay: 2s;
-        }
+            .floating-element:nth-child(3) {
+                bottom: 30%;
+                left: 20%;
+                animation-delay: 2s;
+            }
 
-        .floating-element:nth-child(4) {
-            bottom: 15%;
-            right: 25%;
-            animation-delay: 3s;
-        }
+            .floating-element:nth-child(4) {
+                bottom: 15%;
+                right: 25%;
+                animation-delay: 3s;
+            }
 
         .scripts-btn {
             position: fixed;
@@ -562,29 +670,50 @@
             transition: all 0.3s ease;
             transform-style: preserve-3d;
         }
-        /* COMPACT MUSIC PLAYER */
+
         .compact-music-player {
-            width: 700px;
+            width: 100%;
             background: linear-gradient(135deg, #000000 0%, #111111 50%, #222222 100%);
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             padding: 15px;
             z-index: 25;
             backdrop-filter: blur(10px);
-            box-shadow: 
-                0 0 30px rgba(0, 0, 0, 0.7),
-                0 10px 40px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
             transform-style: preserve-3d;
-            transition: transform 0.1s ease;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
             margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .album-art {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            transform: translateZ(5px);
+        }
+
+            .album-art img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .music-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .music-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
         }
 
         .song-title {
@@ -625,74 +754,90 @@
 
         .control-buttons {
             display: flex;
-            gap: 8px;
+            gap: 5px;
         }
 
         .music-btn {
             background: transparent;
             border: none;
             color: white;
-            padding: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             transform: translateZ(5px);
-            font-size: 16px;
-            width: 36px;
-            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .music-btn:hover {
-            transform: translateZ(10px) scale(1.1);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-        }
+            .music-btn:hover {
+                transform: translateZ(10px) scale(1.1);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+                background: rgba(255, 255, 255, 0.1);
+            }
 
-        .shine {
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            border-radius: 15px;
-            pointer-events: none;
-            z-index: 9;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%,rgba(255,255,255,0) 80%);
-        }
-
-        .hover-in .shine {
-            opacity: 1;
+        .small-btn {
+            font-size: 10px;
+            width: 24px;
+            height: 24px;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) translateZ(0); }
-            50% { transform: translateY(-20px) translateZ(10px); }
+            0%, 100% {
+                transform: translateY(0) translateZ(0);
+            }
+
+            50% {
+                transform: translateY(-20px) translateZ(10px);
+            }
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
         }
 
         @keyframes fadeInOut {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+            0%, 100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
         }
 
         @keyframes blink-caret {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
+            from, to {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
 
         @media (max-width: 430px) {
-            .card-hover {
+            .content-wrapper {
                 width: 90vw;
                 max-width: 320px;
             }
-            
+
+            #combined-container {
+                width: 100%;
+            }
+
             #profile-block {
                 min-height: 240px;
                 padding: 10px;
@@ -744,10 +889,26 @@
                 padding: 4px 8px;
             }
 
+            .discord-activity-box {
+                padding: 8px;
+                gap: 8px;
+            }
+
+            .discord-avatar {
+                width: 32px;
+                height: 32px;
+            }
+
             .compact-music-player {
-                width: 90vw;
-                max-width: 320px;
+                width: 100%;
                 padding: 10px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .album-art {
+                width: 50px;
+                height: 50px;
             }
 
             .music-controls-container {
@@ -762,6 +923,16 @@
             .scripts-btn {
                 padding: 8px 15px;
                 font-size: 12px;
+            }
+
+            .footer-top {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 5px;
             }
         }
     </style>
@@ -786,97 +957,158 @@
         </video>
         <div class="noise-overlay"></div>
 
-        <div class="card-hover">
-            <div id="profile-block" class="card">
-                <div class="profile-header">
-                    <div class="profile-container">
-                       <img src="https://qu.ax/mEJct.jpg" alt="Profile" class="profile-picture" id="profile-pic">
-                    </div>
-                    <div class="profile-info">
-                        <div class="name-and-badges">
-                            <div class="tooltip">
-                                <div id="profile-name" class="username-effect"></div>
-                                <span class="tooltiptext">uid: 0</span>
+        <div class="content-wrapper">
+            <div id="combined-container">
+                <div id="profile-block" class="card">
+                    <div class="profile-header">
+                        <div class="profile-container">
+                           <img src="https://qu.ax/mEJct.jpg" alt="Profile" class="profile-picture" id="profile-pic">
+                        </div>
+                        <div class="profile-info">
+                            <div class="name-and-badges">
+                                <div class="tooltip">
+                                    <div id="profile-name" class="username-effect"></div>
+                                    <span class="tooltiptext">uid: 0</span>
+                                </div>
+                                <div class="badge-group">
+                                    <div class="badge-tooltip">
+                                        <svg class="badge" viewBox="0 0 576 512" fill="#ffffff">
+                                            <path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L209.7 220.6c-9.1 18.2-32.7 23.4-48.6 10.7L72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L86.4 427.4c5.5 30.4 32 52.6 63 52.6l277.2 0c30.9 0 57.4-22.1 63-52.6L535.3 176c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24l-89.1 71.3c-15.9 12.7-39.5 7.5-48.6-10.7L309 106z"></path>
+                                        </svg>
+                                        <span class="badge-tooltiptext">Owner</span>
+                                    </div>
+                                    <div class="badge-tooltip">
+                                        <svg class="badge" viewBox="0 0 512 512" fill="#ffffff">
+                                            <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8l0 378.1C394 378 431.1 230.1 432 141.4L256 66.8s0 0 0 0z"></path>
+                                        </svg>
+                                        <span class="badge-tooltiptext">Administrator</span>
+                                    </div>
+                                    <div class="badge-tooltip">
+                                        <svg class="badge" viewBox="0 0 24 24" fill="#ffffff">
+                                            <path d="M10.007 2.10377C8.60544 1.65006 7.08181 2.28116 6.41156 3.59306L5.60578 5.17023C5.51004 5.35763 5.35763 5.51004 5.17023 5.60578L3.59306 6.41156C2.28116 7.08181 1.65006 8.60544 2.10377 10.007L2.64923 11.692C2.71404 11.8922 2.71404 12.1078 2.64923 12.308L2.10377 13.993C1.65006 15.3946 2.28116 16.9182 3.59306 17.5885L5.17023 18.3942C5.35763 18.49 5.51004 18.6424 5.60578 18.8298L6.41156 20.407C7.08181 21.7189 8.60544 22.35 10.007 21.8963L11.692 21.3508C11.8922 21.286 12.1078 21.286 12.308 21.3508L13.993 21.8963C15.3946 22.35 16.9182 21.7189 17.5885 20.407L18.3942 18.8298C18.49 18.6424 18.6424 18.49 18.8298 18.3942L20.407 17.5885C21.7189 16.9182 22.35 15.3946 21.8963 13.993L21.3508 12.308C21.286 12.1078 21.286 11.8922 21.3508 11.692L21.8963 10.007C22.35 8.60544 21.7189 7.08181 20.407 6.41156L18.8298 5.60578C18.6424 5.51004 18.49 5.35763 18.3942 5.17023L17.5885 3.59306C16.9182 2.28116 15.3946 1.65006 13.993 2.10377L12.308 2.64923C12.1078 2.71403 11.8922 2.71404 11.692 2.64923L10.007 2.10377ZM6.75977 11.7573L8.17399 10.343L11.0024 13.1715L16.6593 7.51465L18.0735 8.92886L11.0024 15.9999L6.75977 11.7573Z"></path>
+                                        </svg>
+                                        <span class="badge-tooltiptext">Verified</span>
+                                    </div>
+                                    <div class="badge-tooltip">
+                                        <svg class="badge" viewBox="0 0 576 512" fill="#ffffff">
+                                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
+                                        </svg>
+                                        <span class="badge-tooltiptext">Premium</span>
+                                    </div>
+                                    <div class="badge-tooltip">
+                                        <svg class="badge" viewBox="0 0 512 512" fill="#ffffff">
+                                            <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path>
+                                        </svg>
+                                        <span class="badge-tooltiptext">Donator</span>
+                                    </div>
+                                    <div class="badge-tooltip">
+                                        <svg class="badge" viewBox="0 0 256 256" fill="#ffffff">
+                                            <path d="M237.66,86.34l-60-60a8,8,0,0,0-11.32,0L37.11,155.57a44.77,44.77,0,0,0,63.32,63.32L212.32,107l22.21-7.4a8,8,0,0,0,3.13-13.25Zm-32.19,6.07a8,8,0,0,0-3.13,1.93l-39.57,39.57c-8.47,2.9-21.75,4-39.07-5-10.6-5.54-20.18-8-28.56-8.73L172,43.31,217.19,88.5Z"></path>
+                                        </svg>
+                                        <span class="badge-tooltiptext">Beta</span>
+                                    </div>
+                                    <div class="badge-tooltip">
+                                        <svg class="badge" viewBox="0 0 576 512" fill="#ffffff">
+                                            <path d="M512 32c0 113.6-84.6 207.5-194.2 222c-7.1-53.4-30.6-101.6-65.3-139.3C290.8 46.3 364 0 448 0l32 0c17.7 0 32 14.3 32 32zM0 96C0 78.3 14.3 64 32 64l32 0c123.7 0 224 100.3 224 224l0 32 0 160c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-160C100.3 320 0 219.7 0 96z"></path>
+                                        </svg>
+                                        <span class="badge-tooltiptext">Early Supporter</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="badge-group">
-                                <div class="badge-tooltip">
-                                    <img src="assets/staff.png" alt="Staff" class="badge">
-                                    <span class="badge-tooltiptext">Staff Member</span>
-                                </div>
-                                <div class="badge-tooltip">
-                                    <img src="assets/active_developer.png" alt="Active Developer" class="badge">
-                                    <span class="badge-tooltiptext">Active Developer</span>
-                                </div>
-                                <div class="badge-tooltip">
-                                    <img src="assets/quests.png" alt="Quests" class="badge">
-                                    <span class="badge-tooltiptext">Quest Completed</span>
-                                </div>
-                                <div class="badge-tooltip">
-                                    <img src="assets/nitro.png" alt="Nitro" class="badge">
-                                    <span class="badge-tooltiptext">Nitro Subscriber</span>
-                                </div>
+                            <div id="profile-bio" class="grow-text"></div>
+                        </div>
+                    </div>
+
+                    <!-- Discord Activity Box -->
+                    <div class="discord-activity-box">
+                        <img src="https://cdn.discordapp.com/avatars/1430655091584667660/a_d4d6e0c9b3c3e3e3e3e3e3e3e3e3e3e.webp?size=80" alt="Discord Avatar" class="discord-avatar">
+                        <div class="discord-activity-content">
+                            <div class="discord-username">fuck005918</div>
+                            <div class="discord-activity-status">online</div>
+                            <div class="discord-activity-details"></div>
+                        </div>
+                        <div class="discord-activity-icon">
+                            <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d=""/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="profile-footer">
+                        <div class="footer-top">
+                            <div class="social-links">
+                                <a href="http://dc.gg/xzx" target="_blank">
+                                    <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                                </a>
+                                <a href="https://open.spotify.com/user/31bfqeqqgqsafrj6m5qqvmfhd2x4?si=7eaca0252a194355" target="_blank">
+                                    <img src="assets/spotify.png" alt="Spotify" class="social-icon">
+                                </a>
+                                <a href="http://dc.gg/xzx" target="_blank">
+                                    <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                                </a>
+                                <a href="http://kutt.it/moooo" target="_blank">
+                                    <img src="assets/world.png" alt="Discord" class="social-icon">
+                                </a>
+                                <a href="http://dc.gg/xzx" target="_blank">
+                                    <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                                </a>
+                                <a href="https://github.com/skidinghub" target="_blank">
+                                    <img src="assets/github.png" alt="GitHub" class="social-icon">
+                                </a>
+                                <a href="http://dc.gg/xzx" target="_blank">
+                                    <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
+                                </a>
                             </div>
                         </div>
-                        <div id="profile-bio" class="grow-text"></div>
+                        
+                        <div class="footer-bottom">
+                            <div class="visitor-counter grow-text">
+                                <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                    </path>
+                                </svg>
+                                <span id="visitor-count" style="color: #ffffff;">0</span>
+                            </div>
+                            
+                            <div class="separator-dot">•</div>
+                            
+                            <div class="location-container">
+                                <svg class="location-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="location-text">United States</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bio-separator"></div>
-
-                <div class="profile-footer">
-                    <div class="social-links">
-                        <a href="http://dc.gg/xzx" target="_blank">
-                            <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
-                        </a>
-                        <a href="https://open.spotify.com/user/31bfqeqqgqsafrj6m5qqvmfhd2x4?si=7eaca0252a194355" target="_blank">
-                            <img src="assets/spotify.png" alt="Spotify" class="social-icon">
-                        </a>
-                        <a href="http://dc.gg/xzx" target="_blank">
-                            <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
-                        </a>
-                        <a href="http://kutt.it/moooo" target="_blank">
-                            <img src="assets/world.png" alt="Discord" class="social-icon">
-                        </a>
-                        <a href="http://dc.gg/xzx" target="_blank">
-                            <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
-                        </a>
-                        <a href="https://github.com/skidinghub" target="_blank">
-                            <img src="assets/github.png" alt="GitHub" class="social-icon">
-                        </a>
-                        <a href="http://dc.gg/xzx" target="_blank">
-                            <img src="https://qu.ax/wOPfl.png" alt="Discord" class="social-icon">
-                        </a>
+                <div class="compact-music-player">
+                    <div class="album-art">
+                        <img id="album-art" src="https://via.placeholder.com/150/000000/FFFFFF?text=Album+Art" alt="Album Art">
                     </div>
-
-                    <div class="visitor-counter grow-text">
-                        <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                            </path>
-                        </svg>
-                        <span id="visitor-count" style="color: #ffffff;">0</span>
+                    <div class="music-content">
+                        <div class="music-info">
+                            <div class="song-title" id="current-song">No song playing</div>
+                        </div>
+                        <div class="music-controls-container">
+                            <div class="time-display" id="current-time">0:00</div>
+                            <div class="progress-container" id="progress-container">
+                                <div class="progress-bar" id="progress-bar"></div>
+                            </div>
+                            <div class="time-display" id="duration">0:00</div>
+                            <div class="control-buttons">
+                                <button id="prev-btn" class="music-btn small-btn">⏮</button>
+                                <button id="play-pause-btn" class="music-btn">▶</button>
+                                <button id="next-btn" class="music-btn small-btn">⏭</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Music Player -->
-        <div class="compact-music-player">
-            <div class="music-info">
-                <div class="song-title" id="current-song">No song playing</div>
-            </div>
-            <div class="music-controls-container">
-                <div class="time-display" id="current-time">0:00</div>
-                <div class="progress-container" id="progress-container">
-                    <div class="progress-bar" id="progress-bar"></div>
-                </div>
-                <div class="time-display" id="duration">0:00</div>
-                <div class="control-buttons">
-                    <button id="prev-btn" class="music-btn">⏮</button>
-                    <button id="play-pause-btn" class="music-btn">▶</button>
-                    <button id="next-btn" class="music-btn">⏭</button>
                 </div>
             </div>
         </div>
@@ -887,126 +1119,30 @@
     <audio id="backgroundsong"></audio>
 
     <script>
-        // 3D Hover Effect Plugin - FIXED VERSION
-        (function($) {
-            $.fn.hover3d = function(options) {
-                const settings = $.extend({
-                    selector: null,
-                    perspective: 1000,
-                    sensitivity: 20,
-                    invert: false,
-                    shine: false,
-                    hoverInClass: "hover-in",
-                    hoverOutClass: "hover-out", 
-                    hoverClass: "hover-3d"
-                }, options);
+        function typeTitle(text, speed = 100) {
+            const titleElement = document.getElementById('page-title');
+            let i = 0;
+            titleElement.textContent = '';
+            
+            function typeChar() {
+                if (i < text.length) {
+                    titleElement.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeChar, speed);
+                }
+            }
+            
+            typeChar();
+        }
 
-                return this.each(function() {
-                    const $container = $(this);
-                    const $element = settings.selector ? $container.find(settings.selector) : $container;
-                    
-                    // Create shine element if enabled
-                    if (settings.shine) {
-                        $element.append('<div class="shine"></div>');
-                    }
-                    const $shine = $element.find(".shine");
-
-                    // Set up 3D properties
-                    $container.css({
-                        perspective: settings.perspective + "px",
-                        transformStyle: "preserve-3d"
-                    });
-                    
-                    $element.css({
-                        transformStyle: "preserve-3d"
-                    });
-
-                    function onMouseEnter() {
-                        $element.addClass(settings.hoverInClass + " " + settings.hoverClass);
-                        setTimeout(function() {
-                            $element.removeClass(settings.hoverInClass);
-                        }, 1000);
-                    }
-
-                    function onMouseMove(e) {
-                        const width = $element.innerWidth();
-                        const height = $element.innerHeight();
-                        const offset = $element.offset();
-                        const mouseX = e.pageX - offset.left;
-                        const mouseY = e.pageY - offset.top;
-                        
-                        // Calculate rotation based on mouse position
-                        const rotateY = ((mouseX / width) - 0.5) * settings.sensitivity;
-                        const rotateX = -((mouseY / height) - 0.5) * settings.sensitivity;
-
-                        // Apply transform to main element
-                        const transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-                        $element.css({
-                            transform: transform
-                        });
-
-                        // Apply same transform to music player with perspective
-                        const musicPlayer = document.querySelector('.compact-music-player');
-                        if (musicPlayer) {
-                            const musicTransform = `perspective(${settings.perspective}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-                            musicPlayer.style.transform = musicTransform;
-                            musicPlayer.style.transformStyle = "preserve-3d";
-                            
-                            // Ensure music player stays at the same depth as profile card
-                            musicPlayer.style.willChange = "transform";
-                        }
-
-                        // Apply shine effect
-                        if (settings.shine) {
-                            const angle = Math.atan2(mouseY - height/2, mouseX - width/2) * 180 / Math.PI - 90;
-                            $shine.css("background", 
-                                `linear-gradient(${angle}deg, rgba(255,255,255,${(mouseY/height) * 0.3}) 0%,rgba(255,255,255,0) 80%)`
-                            );
-                        }
-                    }
-
-                    function onMouseLeave() {
-                        $element.addClass(settings.hoverOutClass);
-                        $element.css({
-                            transform: "rotateX(0) rotateY(0)"
-                        });
-                        
-                        // Reset music player
-                        const musicPlayer = document.querySelector('.compact-music-player');
-                        if (musicPlayer) {
-                            musicPlayer.style.transform = "perspective(1000px) rotateX(0) rotateY(0)";
-                        }
-
-                        setTimeout(function() {
-                            $element.removeClass(settings.hoverOutClass + " " + settings.hoverClass);
-                        }, 1000);
-                    }
-
-                    // Bind events
-                    $container.on("mouseenter", onMouseEnter);
-                    $container.on("mousemove", onMouseMove);
-                    $container.on("mouseleave", onMouseLeave);
-                });
-            };
-        })(jQuery);
-
-        // Initialize 3D effect
-        $(document).ready(function() {
-            $(".card-hover").hover3d({
-                selector: "#profile-block",
-                shine: true,
-                sensitivity: 20,
-                perspective: 1000
-            });
-        });
-
-        // Loading overlay
         const loadingOverlay = document.getElementById('loading-overlay');
         
         function hideLoadingOverlay() {
             loadingOverlay.style.opacity = '0';
             setTimeout(() => {
                 loadingOverlay.style.display = 'none';
+                const actualTitle = document.title;
+                typeTitle(actualTitle);
             }, 500);
         }
         
@@ -1015,14 +1151,12 @@
             document.removeEventListener('click', removeListener);
         });
 
-        // Username typing effect with pipe cursor
         let currentUsernameIndex = 0;
         const usernames = ['Fuck'];
 
         function typeUsernameWithSteps(element, text, speed = 200, callback = null) {
             const steps = [];
             
-            // Create steps: F, Fu, Fuc, Fuck
             for (let i = 1; i <= text.length; i++) {
                 steps.push(text.substring(0, i));
             }
@@ -1034,12 +1168,10 @@
             
             function typeStep() {
                 if (stepIndex < steps.length) {
-                    // Show current step with pipe cursor
                     element.innerHTML = steps[stepIndex] + '<span style="color: #fff; animation: blink-caret 0.75s step-end infinite;">|</span>';
                     stepIndex++;
                     setTimeout(typeStep, speed);
                 } else if (callback) {
-                    // When done, remove the pipe and show final text
                     element.innerHTML = text;
                     setTimeout(callback, 2000);
                 }
@@ -1051,14 +1183,12 @@
             const usernameElement = document.getElementById('profile-name');
             typeUsernameWithSteps(usernameElement, usernames[currentUsernameIndex], 200, function() {
                 setTimeout(() => {
-                    // Restart the cycle after a pause
                     currentUsernameIndex = (currentUsernameIndex + 1) % usernames.length;
                     startUsernameCycle();
                 }, 4000);
             });
         }
 
-        // Bio typing effect with pipe cursor
         let currentBioIndex = 0;
         const bios = [
             'better than nirvana',
@@ -1068,7 +1198,6 @@
         function typeBioWithSteps(element, text, speed = 80, callback = null) {
             const steps = [];
             
-            // Create steps for each character
             for (let i = 1; i <= text.length; i++) {
                 steps.push(text.substring(0, i));
             }
@@ -1080,12 +1209,10 @@
             
             function typeStep() {
                 if (stepIndex < steps.length) {
-                    // Show current step with pipe cursor
                     element.innerHTML = steps[stepIndex] + '<span style="color: #fff; animation: blink-caret 0.75s step-end infinite;">|</span>';
                     stepIndex++;
                     setTimeout(typeStep, speed);
                 } else if (callback) {
-                    // When done, remove the pipe and show final text
                     element.innerHTML = text;
                     setTimeout(callback, 2000);
                 }
@@ -1097,7 +1224,6 @@
             const bioElement = document.getElementById('profile-bio');
             typeBioWithSteps(bioElement, bios[currentBioIndex], 80, function() {
                 setTimeout(() => {
-                    // Restart the cycle after a pause
                     currentBioIndex = (currentBioIndex + 1) % bios.length;
                     startBioCycle();
                 }, 3000);
@@ -1109,7 +1235,6 @@
             startBioCycle();
         });
 
-        // Custom cursor
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
         
@@ -1152,7 +1277,30 @@
             });
         });
 
-        // URL path randomization
+        const combinedContainer = document.getElementById('combined-container');
+        
+        function handleSmoothParallax(e) {
+            const rect = combinedContainer.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const intensity = 0.2;
+            const tiltX = ((mouseY - centerY) / (25 / intensity)) * 0.7;
+            const tiltY = ((centerX - mouseX) / (25 / intensity)) * 0.7;
+            
+            combinedContainer.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        }
+        
+        function resetSmoothParallax() {
+            combinedContainer.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        }
+        
+        combinedContainer.addEventListener('mousemove', handleSmoothParallax);
+        combinedContainer.addEventListener('mouseleave', resetSmoothParallax);
+
         function generateRandomPath() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '/';
@@ -1166,11 +1314,22 @@
             window.history.pushState({}, '', generateRandomPath());
         }, 500);
 
-        // Music functionality
         const playlist = [
-            { url: 'https://qu.ax/nqWbN.mp3', name: 'back to my day job - skel' },
-            { url: 'https://qu.ax/EEqOs.mp3', name: 'fuck u i hate evryone - witchbox n skel' },
-            { url: 'https://qu.ax/bdqBn.mp3', name: 'loser club - skel aster' }
+            { 
+                url: 'https://qu.ax/nqWbN.mp3', 
+                name: 'back to my day job - skel',
+                art: 'https://qu.ax/WXcfa.png'
+            },
+            { 
+                url: 'https://qu.ax/EEqOs.mp3', 
+                name: 'fuck you i hate evrone - witchbox n skel',
+                art: 'https://qu.ax/WFyeJ.jpg'
+            },
+            { 
+                url: 'https://qu.ax/bdqBn.mp3', 
+                name: 'loser club - skel aster',
+                art: 'https://qu.ax/UPgzz.png'
+            }
         ];
 
         const audio = document.getElementById('backgroundsong');
@@ -1178,6 +1337,7 @@
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const currentSong = document.getElementById('current-song');
+        const albumArt = document.getElementById('album-art');
         const progressBar = document.getElementById('progress-bar');
         const progressContainer = document.getElementById('progress-container');
         const currentTimeDisplay = document.getElementById('current-time');
@@ -1186,6 +1346,7 @@
         let index = 0;
         let isPlaying = false;
         let isDragging = false;
+        let savedTime = 0;
 
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
@@ -1196,6 +1357,13 @@
         function loadAndPlay() {
             audio.src = playlist[index].url;
             currentSong.textContent = playlist[index].name;
+            albumArt.src = playlist[index].art;
+            
+            if (savedTime > 0) {
+                audio.currentTime = savedTime;
+                savedTime = 0;
+            }
+            
             audio.play().catch(e => {
                 console.error('Playback blocked:', e);
             });
@@ -1233,6 +1401,7 @@
             if (!isPlaying) {
                 loadAndPlay();
             } else {
+                savedTime = audio.currentTime;
                 audio.pause();
                 isPlaying = false;
                 playPauseBtn.textContent = '▶';
@@ -1247,7 +1416,6 @@
             playNext();
         });
 
-        // Progress bar seeking
         progressContainer.addEventListener('click', (e) => {
             if (!isPlaying) return;
             
@@ -1280,7 +1448,37 @@
             }
         }, { once: true });
 
-        // Visitor counter
+        function updateDiscordActivity() {
+            fetch('https://api.lanyard.rest/v1/users/1430655091584667660')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const user = data.data;
+                        const spotifyActivity = user.activities.find(activity => activity.name === 'Spotify');
+                        
+                        if (spotifyActivity) {
+                            document.querySelector('.discord-activity-status').textContent = 'Listening to Spotify';
+                            document.querySelector('.discord-activity-details').textContent = 
+                                `${spotifyActivity.details} - ${spotifyActivity.state}`;
+                            
+                            if (user.discord_user.avatar) {
+                                document.querySelector('.discord-avatar').src = 
+                                    `https://cdn.discordapp.com/avatars/${user.discord_user.id}/${user.discord_user.avatar}.webp?size=80`;
+                            }
+                        } else {
+                            document.querySelector('.discord-activity-status').textContent = 'Online';
+                            document.querySelector('.discord-activity-details').textContent = 'No activity';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching Discord data:', error);
+                });
+        }
+
+        updateDiscordActivity();
+        setInterval(updateDiscordActivity, 100);
+
         let visitorCount = Math.floor(Math.random() * 1000) + 500;
         document.getElementById('visitor-count').textContent = visitorCount;
         
@@ -1291,4 +1489,3 @@
     </script>
 </body>
 </html>
-
