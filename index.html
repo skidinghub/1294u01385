@@ -13,7 +13,6 @@
     <meta content="https://i.imgur.com/y6XhCX6.jpeg" property="og:image" />
     <meta content="#000001" data-react-helmet="true" name="theme-color" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="obfuscat.js"></script>
     <style>
         * {
             margin: 0;
@@ -23,7 +22,7 @@
             cursor: none;
         }
 
-        .social-links a, .scripts-btn, .music-btn {
+        .social-links a, .scripts-btn, .music-btn, .tooltip, .badge-tooltip, .profile-picture, .badge, .social-icon {
             cursor: pointer !important;
             pointer-events: auto !important;
             position: relative;
@@ -319,10 +318,12 @@
                 text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             }
 
+        /* Enhanced Tooltip Styles */
         .tooltip {
             position: relative;
             display: inline-block;
             transform-style: preserve-3d;
+            cursor: pointer;
         }
 
             .tooltip .tooltiptext {
@@ -334,19 +335,20 @@
                 border-radius: 8px;
                 padding: 10px 12px;
                 position: absolute;
-                z-index: 100;
+                z-index: 1000;
                 bottom: 125%;
                 left: 50%;
                 margin-left: -60px;
                 opacity: 0;
-                transition: opacity 0.3s;
+                transition: opacity 0.3s, transform 0.3s;
                 border: 1px solid rgba(255, 255, 255, 0.3);
                 font-size: 12px;
                 font-family: 'Courier New', monospace;
                 backdrop-filter: blur(10px);
-                transform: translateZ(30px);
+                transform: translateZ(30px) translateY(10px);
                 white-space: nowrap;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+                pointer-events: none;
             }
 
                 .tooltip .tooltiptext::after {
@@ -363,6 +365,7 @@
             .tooltip:hover .tooltiptext {
                 visibility: visible;
                 opacity: 1;
+                transform: translateZ(30px) translateY(0);
             }
 
         .badge-group {
@@ -374,6 +377,7 @@
         .badge-tooltip {
             position: relative;
             display: inline-block;
+            cursor: pointer;
         }
 
             .badge-tooltip .badge-tooltiptext {
@@ -385,19 +389,20 @@
                 border-radius: 8px;
                 padding: 10px 12px;
                 position: absolute;
-                z-index: 100;
+                z-index: 1000;
                 bottom: 125%;
                 left: 50%;
                 margin-left: -70px;
                 opacity: 0;
-                transition: opacity 0.3s;
+                transition: opacity 0.3s, transform 0.3s;
                 border: 1px solid rgba(255, 255, 255, 0.3);
                 font-size: 12px;
                 font-family: 'Courier New', monospace;
                 backdrop-filter: blur(10px);
-                transform: translateZ(30px);
+                transform: translateZ(30px) translateY(10px);
                 white-space: nowrap;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+                pointer-events: none;
             }
 
                 .badge-tooltip .badge-tooltiptext::after {
@@ -414,6 +419,7 @@
             .badge-tooltip:hover .badge-tooltiptext {
                 visibility: visible;
                 opacity: 1;
+                transform: translateZ(30px) translateY(0);
             }
 
         .badge {
@@ -1021,7 +1027,7 @@
 
                     <!-- Discord Activity Box -->
                     <div class="discord-activity-box">
-                        <img src="https://cdn.discordapp.com/avatars/1430655091584667660/a_d4d6e0c9b3c3e3e3e3e3e3e3e3e3e3e.webp?size=80" alt="Discord Avatar" class="discord-avatar">
+                        <img src="https://cdn.discordapp.com/avatars/1430655091584667660/a_d4d6e0c9b3c3e3e3e3e3e3e3e3e3e.webp?size=80" alt="Discord Avatar" class="discord-avatar">
                         <div class="discord-activity-content">
                             <div class="discord-username">fuck005918</div>
                             <div class="discord-activity-status">online</div>
@@ -1119,6 +1125,223 @@
     <audio id="backgroundsong"></audio>
 
     <script>
+        // Enhanced Protection System - Clean Working Version
+        (function() {
+            'use strict';
+            
+            let protectionActive = true;
+            let warningShown = false;
+            
+            // Store original console methods
+            const originalConsole = {
+                log: console.log,
+                warn: console.warn,
+                error: console.error,
+                info: console.info,
+                debug: console.debug
+            };
+            
+            // Redirect console to prevent debugging
+            ['log', 'warn', 'error', 'info', 'debug'].forEach(method => {
+                console[method] = function() {
+                    if (protectionActive && !warningShown) {
+                        showWarning('Debugging detected');
+                        return;
+                    }
+                    originalConsole[method].apply(console, arguments);
+                };
+            });
+            
+            // Detect source view attempts
+            function detectSourceView() {
+                // Method 1: Check if page is being viewed as source
+                if (window.self !== window.top) {
+                    triggerScreenSplit();
+                    return true;
+                }
+                
+                // Method 2: Check URL for view-source prefix
+                if (window.location.protocol === 'view-source:') {
+                    triggerScreenSplit();
+                    return true;
+                }
+                
+                // Method 3: Detect if page is being framed (common in source viewers)
+                try {
+                    if (window.frameElement && window.frameElement.tagName) {
+                        triggerScreenSplit();
+                        return true;
+                    }
+                } catch (e) {}
+                
+                return false;
+            }
+            
+            // Split screen effect
+            function triggerScreenSplit() {
+                if (warningShown) return;
+                warningShown = true;
+                
+                document.body.innerHTML = '';
+                
+                // Create split screen effect
+                const leftSide = document.createElement('div');
+                leftSide.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 50%;
+                    height: 100%;
+                    background: linear-gradient(45deg, #ff0000, #8b0000);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    font-size: 2rem;
+                    font-weight: bold;
+                    text-align: center;
+                    z-index: 10000;
+                `;
+                leftSide.textContent = 'SOURCE VIEWING DETECTED';
+                
+                const rightSide = document.createElement('div');
+                rightSide.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    right: 0;
+                    width: 50%;
+                    height: 100%;
+                    background: linear-gradient(45deg, #0000ff, #00008b);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    font-size: 2rem;
+                    font-weight: bold;
+                    text-align: center;
+                    z-index: 10000;
+                `;
+                rightSide.textContent = 'ACCESS DENIED';
+                
+                // Add shaking animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes shake {
+                        0%, 100% { transform: translateX(0); }
+                        25% { transform: translateX(-10px); }
+                        75% { transform: translateX(10px); }
+                    }
+                    .shaking {
+                        animation: shake 0.1s infinite;
+                    }
+                `;
+                
+                document.body.appendChild(style);
+                document.body.appendChild(leftSide);
+                document.body.appendChild(rightSide);
+                
+                // Make elements shake
+                leftSide.classList.add('shaking');
+                rightSide.classList.add('shaking');
+                
+                // Prevent any interaction
+                document.body.style.overflow = 'hidden';
+                document.body.style.cursor = 'not-allowed';
+                
+                // Auto-reload after 5 seconds
+                setTimeout(() => {
+                    window.location.reload();
+                }, 5000);
+            }
+            
+            // Enhanced right-click protection
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                if (!warningShown) {
+                    showWarning('Right-click disabled');
+                }
+                return false;
+            });
+            
+            // Enhanced keyboard protection
+            document.addEventListener('keydown', function(e) {
+                const blockedKeys = ['F12', 'F11', 'F10'];
+                
+                const blockedCombos = [
+                    e.ctrlKey && e.shiftKey && e.key === 'I',
+                    e.ctrlKey && e.shiftKey && e.key === 'J',
+                    e.ctrlKey && e.shiftKey && e.key === 'C',
+                    e.ctrlKey && e.key === 'U'
+                ];
+                
+                if (blockedKeys.includes(e.key) || blockedCombos.some(combo => combo)) {
+                    e.preventDefault();
+                    if (!warningShown) {
+                        showWarning('Developer tools disabled');
+                    }
+                    return false;
+                }
+            });
+            
+            // Detect devtools opening by checking window size
+            function detectDevToolsOpen() {
+                const threshold = 160;
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                
+                if ((widthThreshold || heightThreshold) && !warningShown) {
+                    showWarning('Developer tools detected');
+                }
+            }
+            
+            // Periodic checks
+            setInterval(detectDevToolsOpen, 1000);
+            setInterval(detectSourceView, 500);
+            
+            // Initial source view check
+            setTimeout(detectSourceView, 100);
+            
+            // Block React/Vue devtools
+            if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === "object") {
+                for (let [key, value] of Object.entries(window.__REACT_DEVTOOLS_GLOBAL_HOOK__)) {
+                    window.__REACT_DEVTOOLS_GLOBAL_HOOK__[key] = typeof value == "function" ? function(){} : null;
+                }
+            }
+            
+            if (window.__VUE_DEVTOOLS_GLOBAL_HOOK__) {
+                window.__VUE_DEVTOOLS_GLOBAL_HOOK__ = null;
+            }
+            
+            function showWarning(message) {
+                if (warningShown) return;
+                
+                const warning = document.createElement('div');
+                warning.style.cssText = `
+                    position: fixed;
+                    top: 10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(255,0,0,0.9);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    font-family: Arial;
+                    font-weight: bold;
+                    z-index: 10001;
+                `;
+                warning.textContent = `⚠ ${message}`;
+                document.body.appendChild(warning);
+                
+                setTimeout(() => {
+                    if (warning.parentNode) {
+                        warning.parentNode.removeChild(warning);
+                    }
+                }, 3000);
+            }
+            
+            console.log('Advanced protection system activated');
+        })();
+
         function typeTitle(text, speed = 100) {
             const titleElement = document.getElementById('page-title');
             let i = 0;
